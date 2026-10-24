@@ -3,34 +3,34 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>CoachHub â€” Manager Portal</title>
+<title>CoachHub — Manager Portal</title>
 <link rel="stylesheet" href="css/style.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body style="display:flex">
 
-<button class="theme-toggle" id="theme-toggle" title="Toggle light/dark">ðŸŒ™</button>
+<button class="theme-toggle" id="theme-toggle" title="Toggle light/dark">🌙</button>
 
 <aside class="sidebar">
   <div class="sidebar-logo"><h1>Coach<span>Hub</span></h1><p>Manager Portal</p></div>
   <nav class="sidebar-nav">
-    <button class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">ðŸ </span>Dashboard</button>
+    <button class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">🏠</span>Dashboard</button>
     <button class="nav-item" onclick="showPage('players',this)"><span class="icon">👥</span>All Players</button>
-    <button class="nav-item" onclick="showPage('coaches',this)"><span class="icon">ðŸ§‘â€ðŸ’¼</span>Coaches</button>
+    <button class="nav-item" onclick="showPage('coaches',this)"><span class="icon">🧑‍💼</span>Coaches</button>
     <button class="nav-item" onclick="showPage('matches',this)"><span class="icon">⚽</span>Matches</button>
     <button class="nav-item" onclick="showPage('leaderboard',this)"><span class="icon">🏆</span>Leaderboard</button>
     <button class="nav-item" onclick="showPage('attendance',this)"><span class="icon">📅</span>Attendance</button>
     <button class="nav-item" onclick="showPage('sql',this)"><span class="icon">ðŸ—„ï¸</span>SQL Explorer</button>
     <button class="nav-item" onclick="showPage('announcements',this)"><span class="icon">ðŸ“¢</span>Announcements</button>
-    <button class="nav-item" onclick="showPage('profile',this)"><span class="icon">ðŸ‘¤</span>My Profile</button>
+    <button class="nav-item" onclick="showPage('profile',this)"><span class="icon">👤</span>My Profile</button>
   </nav>
   <div class="sidebar-bottom">
     <div class="user-badge">
       <div class="user-avatar" id="mgr-avatar" style="background:linear-gradient(135deg,var(--gold),#ff8f00);color:#000">M</div>
       <div class="user-info"><p id="mgr-name">Manager</p><span class="role-badge role-manager">Manager</span></div>
     </div>
-    <button class="logout-btn" onclick="handleLogout()">â¬… Logout</button>
+    <button class="logout-btn" onclick="handleLogout()">⬅ Logout</button>
   </div>
 </aside>
 
@@ -54,10 +54,10 @@
   <!-- DASHBOARD -->
   <div class="page active" id="page-dashboard">
     <div class="stat-row">
-      <div class="stat-card sc-blue"><div class="stat-icon">👥</div><div class="stat-val" id="s-players">â€”</div><div class="stat-label">Total Players</div></div>
-      <div class="stat-card sc-cyan"><div class="stat-icon">ðŸ§‘â€ðŸ’¼</div><div class="stat-val" id="s-coaches">â€”</div><div class="stat-label">Coaches</div></div>
-      <div class="stat-card sc-gold"><div class="stat-icon">⚽</div><div class="stat-val" id="s-matches">â€”</div><div class="stat-label">Total Matches</div></div>
-      <div class="stat-card sc-green"><div class="stat-icon">🏆</div><div class="stat-val" id="s-wins">â€”</div><div class="stat-label">Total Wins</div></div>
+      <div class="stat-card sc-blue"><div class="stat-icon">👥</div><div class="stat-val" id="s-players">—</div><div class="stat-label">Total Players</div></div>
+      <div class="stat-card sc-cyan"><div class="stat-icon">🧑‍💼</div><div class="stat-val" id="s-coaches">—</div><div class="stat-label">Coaches</div></div>
+      <div class="stat-card sc-gold"><div class="stat-icon">⚽</div><div class="stat-val" id="s-matches">—</div><div class="stat-label">Total Matches</div></div>
+      <div class="stat-card sc-green"><div class="stat-icon">🏆</div><div class="stat-val" id="s-wins">—</div><div class="stat-label">Total Wins</div></div>
     </div>
     <div class="two-col">
       <div>
@@ -89,7 +89,7 @@
     <div class="sec-header">
       <div class="sec-title">All Registered Players</div>
       <div style="display:flex;gap:.8rem;flex-wrap:wrap">
-        <div class="search-bar"><span>🔧</span><input type="text" placeholder="Search..." oninput="searchPlayers(this.value)"/></div>
+        <div class="search-bar"><span>🔍</span><input type="text" placeholder="Search..." oninput="searchPlayers(this.value)"/></div>
         <select id="sport-filter" class="tab" style="padding:.45rem .9rem" onchange="filterBySport(this.value)">
           <option value="">All Sports</option>
           <option>Football</option><option>Cricket</option><option>Basketball</option><option>Volleyball</option><option>Athletics</option><option>Kabaddi</option>
@@ -179,7 +179,7 @@
       <div class="card-box">
         <div style="display:flex;align-items:center;gap:1.2rem;margin-bottom:1.5rem">
           <div class="user-avatar" style="width:64px;height:64px;font-size:1.6rem;background:linear-gradient(135deg,var(--gold),#ff8f00);color:#000" id="p-avatar">M</div>
-          <div><h3 id="p-name-display" style="font-size:1.2rem;color:var(--white)">â€”</h3><span class="role-badge role-manager">Manager</span></div>
+          <div><h3 id="p-name-display" style="font-size:1.2rem;color:var(--white)">—</h3><span class="role-badge role-manager">Manager</span></div>
         </div>
         <div class="form-group"><label>Full Name</label><input type="text" id="mp-name"/></div>
         <div class="form-group"><label>Department</label><input type="text" id="mp-dept" placeholder="Operations, Finance..."/></div>
@@ -191,21 +191,21 @@
 </main>
 
 <script type="module">
-import { requireAuth } from './auth.js';
+import { requireAuth } from './js/auth.js';
 import { getAllPlayers, getAllCoaches, getAllMatches, getAnnouncements,
          getLeaderboard, getUser, updateUser, fmtDate, fmtDateTime,
-         getAttendanceSessions } from './db.js';
-import { initSQL, sqlQuery } from './sql-layer.js';
+         getAttendanceSessions } from './js/db.js';
+import { initSQL, sqlQuery } from './js/sql-layer.js';
 
 let me=null, allPlayers=[], allCoaches=[], allMatches=[], allAnn=[];
 
 const BADGE_DEFS=[
   {id:'goals5',icon:'🎯',label:'5 Goals',check:p=>(p.goals||0)>=5},
   {id:'goals10',icon:'⚽',label:'10 Goals',check:p=>(p.goals||0)>=10},
-  {id:'assists5',icon:'ðŸ¤',label:'5 Assists',check:p=>(p.assists||0)>=5},
+  {id:'assists5',icon:'🤝',label:'5 Assists',check:p=>(p.assists||0)>=5},
   {id:'matches10',icon:'ðŸƒ',label:'10 Matches',check:p=>(p.matchesPlayed||0)>=10},
   {id:'fitness90',icon:'💪',label:'Peak Fitness',check:p=>(p.fitnessScore||0)>=90},
-  {id:'allround',icon:'â­',label:'All-Rounder',check:p=>((p.goals||0)+(p.assists||0))>=10},
+  {id:'allround',icon:'⭐',label:'All-Rounder',check:p=>((p.goals||0)+(p.assists||0))>=10},
 ];
 
 requireAuth(['manager']).then(async user=>{
@@ -234,16 +234,16 @@ async function loadAll(){
   buildNotifications();
 }
 
-// â”€â”€ ðŸŒ™ THEME â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â”€â”€ 🌙 THEME â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initTheme(){const s=localStorage.getItem('ch_theme');if(s==='light')applyTheme('light');}
-function applyTheme(m){document.body.classList.toggle('light-mode',m==='light');document.getElementById('theme-toggle').textContent=m==='light'?'â˜€ï¸':'ðŸŒ™';localStorage.setItem('ch_theme',m);}
+function applyTheme(m){document.body.classList.toggle('light-mode',m==='light');document.getElementById('theme-toggle').textContent=m==='light'?'â˜€ï¸':'🌙';localStorage.setItem('ch_theme',m);}
 document.getElementById('theme-toggle').addEventListener('click',()=>{applyTheme(document.body.classList.contains('light-mode')?'dark':'light');});
 
 // â”€â”€ 🔧” NOTIFICATIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function buildNotifications(){
   const items=[];
   allAnn.filter(a=>a.priority==='urgent').forEach(a=>items.push({icon:'ðŸš¨',text:a.title,sub:'Urgent announcement'}));
-  allPlayers.filter(p=>p.status==='Injured').forEach(p=>items.push({icon:'ðŸ¥',text:`${p.name} is Injured`,sub:'Player alert'}));
+  allPlayers.filter(p=>p.status==='Injured').forEach(p=>items.push({icon:'🏥',text:`${p.name} is Injured`,sub:'Player alert'}));
   allMatches.filter(m=>m.status==='upcoming').slice(0,2).forEach(m=>items.push({icon:'⚽',text:`Match vs ${m.opponent}`,sub:fmtDate(m.date)}));
   const c=document.getElementById('notif-count');
   if(items.length){c.textContent=items.length;c.classList.remove('hidden');}else c.classList.add('hidden');
@@ -280,7 +280,7 @@ function renderPlayers(list){
   if(!list.length){tbody.innerHTML=`<tr><td colspan="10" style="color:var(--muted);text-align:center;padding:2rem">No players registered</td></tr>`;return;}
   tbody.innerHTML=list.map(p=>{
     const badges=BADGE_DEFS.filter(b=>b.check(p)).slice(0,3).map(b=>`<span title="${b.label}">${b.icon}</span>`).join(' ');
-    return `<tr><td><strong>${p.name}</strong></td><td>${p.sport}</td><td>${p.position||'â€”'}</td><td>${p.jerseyNumber||'â€”'}</td><td>${p.matchesPlayed||0}</td><td>${p.goals||0}</td><td>${p.assists||0}</td><td>${p.fitnessScore||0}%</td><td><span class="badge ${p.status==='Active'?'badge-green':p.status==='Injured'?'badge-red':'badge-orange'}">${p.status||'Active'}</span></td><td>${badges||'â€”'}</td></tr>`;
+    return `<tr><td><strong>${p.name}</strong></td><td>${p.sport}</td><td>${p.position||'—'}</td><td>${p.jerseyNumber||'—'}</td><td>${p.matchesPlayed||0}</td><td>${p.goals||0}</td><td>${p.assists||0}</td><td>${p.fitnessScore||0}%</td><td><span class="badge ${p.status==='Active'?'badge-green':p.status==='Injured'?'badge-red':'badge-orange'}">${p.status||'Active'}</span></td><td>${badges||'—'}</td></tr>`;
   }).join('');
 }
 window.searchPlayers=(q)=>renderPlayers(allPlayers.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())));
@@ -290,14 +290,14 @@ window.filterBySport=(s)=>renderPlayers(s?allPlayers.filter(p=>p.sport===s):allP
 function renderCoaches(){
   const tbody=document.getElementById('coaches-tbody');
   if(!allCoaches.length){tbody.innerHTML=`<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:2rem">No coaches registered</td></tr>`;return;}
-  tbody.innerHTML=allCoaches.map(c=>`<tr><td><strong>${c.name}</strong></td><td>${c.email}</td><td>${c.sport||c.specialization||'â€”'}</td><td>${c.experience||'â€”'} yrs</td><td><code style="color:var(--cyan)">${c.teamCode||'â€”'}</code></td></tr>`).join('');
+  tbody.innerHTML=allCoaches.map(c=>`<tr><td><strong>${c.name}</strong></td><td>${c.email}</td><td>${c.sport||c.specialization||'—'}</td><td>${c.experience||'—'} yrs</td><td><code style="color:var(--cyan)">${c.teamCode||'—'}</code></td></tr>`).join('');
 }
 
 // â”€â”€ MATCHES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderMatches(list){
   const tbody=document.getElementById('mgr-matches-tbody');
   if(!list.length){tbody.innerHTML=`<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:2rem">No matches</td></tr>`;return;}
-  tbody.innerHTML=list.map(m=>{const result=m.status==='completed'?(m.scoreUs>m.scoreThem?'<span class="badge badge-green">WIN</span>':m.scoreUs<m.scoreThem?'<span class="badge badge-red">LOSS</span>':'<span class="badge badge-muted">DRAW</span>'):'â€”';return `<tr><td>${fmtDate(m.date)}</td><td><strong>${m.opponent}</strong></td><td>${m.venue}</td><td>${m.sport}</td><td><span class="badge badge-blue">${m.type}</span></td><td>${m.status==='completed'?`${m.scoreUs||0} â€“ ${m.scoreThem||0}`:'â€”'}</td><td>${result}</td></tr>`;}).join('');
+  tbody.innerHTML=list.map(m=>{const result=m.status==='completed'?(m.scoreUs>m.scoreThem?'<span class="badge badge-green">WIN</span>':m.scoreUs<m.scoreThem?'<span class="badge badge-red">LOSS</span>':'<span class="badge badge-muted">DRAW</span>'):'—';return `<tr><td>${fmtDate(m.date)}</td><td><strong>${m.opponent}</strong></td><td>${m.venue}</td><td>${m.sport}</td><td><span class="badge badge-blue">${m.type}</span></td><td>${m.status==='completed'?`${m.scoreUs||0} â€“ ${m.scoreThem||0}`:'—'}</td><td>${result}</td></tr>`;}).join('');
 }
 window.filterMatches=(f,btn)=>{btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderMatches(f==='all'?allMatches:allMatches.filter(m=>m.status===f));};
 
@@ -350,7 +350,7 @@ window.exportFullReport=async()=>{
   pdf.setTextColor(255,214,0); pdf.setFontSize(22); pdf.setFont('helvetica','bold');
   pdf.text('CoachHub SportsPMS',15,20);
   pdf.setTextColor(255,255,255); pdf.setFontSize(14);
-  pdf.text('Team Performance Report â€” Manager Summary',15,32);
+  pdf.text('Team Performance Report — Manager Summary',15,32);
   pdf.setDrawColor(255,214,0); pdf.setLineWidth(.5); pdf.line(15,36,195,36);
   pdf.setTextColor(220,230,245); pdf.setFontSize(11); pdf.setFont('helvetica','normal');
   pdf.text(`Generated: ${new Date().toLocaleString('en-GB')}`,15,44);

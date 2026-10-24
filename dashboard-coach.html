@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>CoachHub â€” Coach Portal</title>
+<title>CoachHub — Coach Portal</title>
 <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body style="display:flex">
 
 <!-- Theme Toggle -->
-<button class="theme-toggle" id="theme-toggle" title="Toggle light/dark">ðŸŒ™</button>
+<button class="theme-toggle" id="theme-toggle" title="Toggle light/dark">🌙</button>
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
@@ -18,15 +18,15 @@
     <p>Coach Portal</p>
   </div>
   <nav class="sidebar-nav">
-    <button class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">ðŸ </span>Dashboard</button>
+    <button class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">🏠</span>Dashboard</button>
     <button class="nav-item" onclick="showPage('players',this)"><span class="icon">👥</span>Players</button>
     <button class="nav-item" onclick="showPage('attendance',this)"><span class="icon">📅</span>Attendance</button>
     <button class="nav-item" onclick="showPage('matches',this)"><span class="icon">⚽</span>Matches</button>
     <button class="nav-item" onclick="showPage('leaderboard',this)"><span class="icon">🏆</span>Leaderboard</button>
     <button class="nav-item" onclick="showPage('training',this)"><span class="icon">💪</span>Training Plans</button>
-    <button class="nav-item" onclick="showPage('chat',this)"><span class="icon">ðŸ’¬</span>Team Chat</button>
+    <button class="nav-item" onclick="showPage('chat',this)"><span class="icon">💬</span>Team Chat</button>
     <button class="nav-item" onclick="showPage('announcements',this)"><span class="icon">ðŸ“¢</span>Announcements</button>
-    <button class="nav-item" onclick="showPage('profile',this)"><span class="icon">ðŸ‘¤</span>My Profile</button>
+    <button class="nav-item" onclick="showPage('profile',this)"><span class="icon">👤</span>My Profile</button>
   </nav>
   <div class="sidebar-bottom">
     <div class="user-badge">
@@ -36,7 +36,7 @@
         <span class="role-badge role-coach">Coach</span>
       </div>
     </div>
-    <button class="logout-btn" onclick="handleLogout()">â¬… Logout</button>
+    <button class="logout-btn" onclick="handleLogout()">⬅ Logout</button>
   </div>
 </aside>
 
@@ -66,10 +66,10 @@
   <!-- DASHBOARD -->
   <div class="page active" id="page-dashboard">
     <div class="stat-row">
-      <div class="stat-card sc-blue"><div class="stat-icon">👥</div><div class="stat-val" id="s-players">â€”</div><div class="stat-label">Total Players</div></div>
-      <div class="stat-card sc-cyan"><div class="stat-icon">⚽</div><div class="stat-val" id="s-matches">â€”</div><div class="stat-label">Matches Scheduled</div></div>
-      <div class="stat-card sc-gold"><div class="stat-icon">🏆</div><div class="stat-val" id="s-wins">â€”</div><div class="stat-label">Wins</div></div>
-      <div class="stat-card sc-green"><div class="stat-icon">ðŸ“¢</div><div class="stat-val" id="s-ann">â€”</div><div class="stat-label">Announcements</div></div>
+      <div class="stat-card sc-blue"><div class="stat-icon">👥</div><div class="stat-val" id="s-players">—</div><div class="stat-label">Total Players</div></div>
+      <div class="stat-card sc-cyan"><div class="stat-icon">⚽</div><div class="stat-val" id="s-matches">—</div><div class="stat-label">Matches Scheduled</div></div>
+      <div class="stat-card sc-gold"><div class="stat-icon">🏆</div><div class="stat-val" id="s-wins">—</div><div class="stat-label">Wins</div></div>
+      <div class="stat-card sc-green"><div class="stat-icon">ðŸ“¢</div><div class="stat-val" id="s-ann">—</div><div class="stat-label">Announcements</div></div>
     </div>
     <div class="two-col">
       <div>
@@ -93,7 +93,7 @@
     <div class="sec-header">
       <div class="sec-title">Player Management</div>
       <div style="display:flex;gap:.8rem;align-items:center">
-        <div class="search-bar"><span>🔧</span><input type="text" placeholder="Search players..." oninput="searchPlayers(this.value)"/></div>
+        <div class="search-bar"><span>🔍</span><input type="text" placeholder="Search players..." oninput="searchPlayers(this.value)"/></div>
         <button class="btn btn-primary btn-sm" onclick="openPlayerModal()">+ Update Stats</button>
       </div>
     </div>
@@ -201,7 +201,7 @@
         <div style="display:flex;align-items:center;gap:1.2rem;margin-bottom:1.5rem">
           <div class="user-avatar" style="width:64px;height:64px;font-size:1.6rem" id="profile-avatar">C</div>
           <div>
-            <h3 id="profile-name" style="font-size:1.2rem;color:var(--white)">â€”</h3>
+            <h3 id="profile-name" style="font-size:1.2rem;color:var(--white)">—</h3>
             <span class="role-badge role-coach">Coach</span>
           </div>
         </div>
@@ -222,7 +222,7 @@
     <div class="modal-header"><h3 id="player-modal-title">Update Player Stats</h3><button class="modal-close" onclick="closeModal('player-modal')">âœ•</button></div>
     <input type="hidden" id="pm-uid"/>
     <div class="form-group"><label>Select Player</label>
-      <select id="pm-player-select" onchange="fillPlayerData()"><option value="">â€” Choose â€”</option></select>
+      <select id="pm-player-select" onchange="fillPlayerData()"><option value="">— Choose —</option></select>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
       <div class="form-group"><label>Position</label><input type="text" id="pm-position" placeholder="Forward"/></div>
@@ -301,14 +301,14 @@
 </div>
 
 <script type="module">
-import { requireAuth, logoutUser } from './auth.js';
+import { requireAuth, logoutUser } from './js/auth.js';
 import { getAllPlayers, getAllMatches, getAnnouncements, getLeaderboard,
          getTrainingPlans, updatePlayer, addMatch, updateMatch, deleteMatch,
          addAnnouncement, deleteAnnouncement, addTrainingPlan, deleteTrainingPlan,
          updateUser, getUser, fmtDate, fmtDateTime,
          addAttendanceSession, getAttendanceSessions, deleteAttendanceSession,
-         sendChatMessage, getChatMessages } from './db.js';
-import { db } from './firebase-config.js';
+         sendChatMessage, getChatMessages } from './js/db.js';
+import { db } from './js/firebase-config.js';
 import { collection, onSnapshot, orderBy, query }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -347,14 +347,14 @@ async function loadAll() {
   buildNotifications();
 }
 
-// â”€â”€ ðŸŒ™ DARK/LIGHT MODE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â”€â”€ 🌙 DARK/LIGHT MODE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initTheme() {
   const saved = localStorage.getItem('ch_theme');
   if (saved === 'light') applyTheme('light');
 }
 function applyTheme(mode) {
   document.body.classList.toggle('light-mode', mode === 'light');
-  document.getElementById('theme-toggle').textContent = mode === 'light' ? 'â˜€ï¸' : 'ðŸŒ™';
+  document.getElementById('theme-toggle').textContent = mode === 'light' ? 'â˜€ï¸' : '🌙';
   localStorage.setItem('ch_theme', mode);
 }
 document.getElementById('theme-toggle').addEventListener('click', () => {
@@ -368,7 +368,7 @@ function buildNotifications() {
   const urgentAnn = allAnn.filter(a => a.priority === 'urgent');
   urgentAnn.forEach(a => notifItems.push({ icon:'ðŸš¨', text: a.title, sub: 'Urgent announcement', id: a.id }));
   const injured = allPlayers.filter(p => p.status === 'Injured');
-  injured.forEach(p => notifItems.push({ icon:'ðŸ¥', text: `${p.name} is Injured`, sub: 'Player status alert', id: p.id }));
+  injured.forEach(p => notifItems.push({ icon:'🏥', text: `${p.name} is Injured`, sub: 'Player status alert', id: p.id }));
   const upcoming = allMatches.filter(m => m.status === 'upcoming').slice(0, 2);
   upcoming.forEach(m => notifItems.push({ icon:'⚽', text: `Match vs ${m.opponent}`, sub: fmtDate(m.date), id: m.id }));
 
@@ -412,7 +412,7 @@ function renderDashboard() {
   const upcoming = allMatches.filter(m=>m.status==='upcoming').slice(0,3);
   document.getElementById('dash-matches-list').innerHTML = upcoming.length ? upcoming.map(m=>`
     <div class="card-box" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center">
-      <div><strong style="color:var(--white)">${m.opponent}</strong><div style="font-size:.75rem;color:var(--muted)">${fmtDate(m.date)} Â· ${m.venue}</div></div>
+      <div><strong style="color:var(--white)">${m.opponent}</strong><div style="font-size:.75rem;color:var(--muted)">${fmtDate(m.date)} · ${m.venue}</div></div>
       <span class="badge badge-blue">${m.type}</span>
     </div>`).join('') : `<p class="text-muted">No upcoming matches</p>`;
   document.getElementById('dash-ann-list').innerHTML = allAnn.slice(0,2).map(a=>`
@@ -427,11 +427,11 @@ function getPlayerBadges(p) {
   const badges = [];
   if ((p.goals||0) >= 10) badges.push({ icon:'⚽', label:'10 Goals', color:'var(--gold)' });
   if ((p.goals||0) >= 5)  badges.push({ icon:'🎯', label:'5 Goals',  color:'var(--cyan)' });
-  if ((p.assists||0) >= 5) badges.push({ icon:'ðŸ¤', label:'5 Assists', color:'var(--green)' });
+  if ((p.assists||0) >= 5) badges.push({ icon:'🤝', label:'5 Assists', color:'var(--green)' });
   if ((p.matchesPlayed||0) >= 10) badges.push({ icon:'ðŸƒ', label:'10 Matches', color:'var(--blue)' });
   if ((p.fitnessScore||0) >= 90) badges.push({ icon:'💪', label:'Peak Fitness', color:'#e040fb' });
   if (p.status === 'Active' && (p.goals||0) > 0 && (p.matchesPlayed||0) > 0)
-    badges.push({ icon:'â­', label:'Active Star', color:'var(--gold)' });
+    badges.push({ icon:'⭐', label:'Active Star', color:'var(--gold)' });
   return badges;
 }
 
@@ -445,14 +445,14 @@ function renderPlayers(list) {
       `<span title="${b.label}" style="font-size:1rem">${b.icon}</span>`).join('');
     return `<tr>
       <td><strong>${p.name}</strong></td><td>${p.sport}</td>
-      <td>${p.position||'â€”'}</td><td>${p.jerseyNumber||'â€”'}</td>
+      <td>${p.position||'—'}</td><td>${p.jerseyNumber||'—'}</td>
       <td>${p.matchesPlayed||0}</td><td>${p.goals||0}</td><td>${p.assists||0}</td>
       <td>
         <div class="prog-track" style="width:80px"><div class="prog-fill" style="width:${p.fitnessScore||0}%;background:linear-gradient(90deg,var(--blue),var(--cyan))"></div></div>
         <small style="color:var(--muted)">${p.fitnessScore||0}%</small>
       </td>
       <td><span class="badge ${p.status==='Active'?'badge-green':p.status==='Injured'?'badge-red':'badge-orange'}">${p.status||'Active'}</span></td>
-      <td>${badgeHtml || 'â€”'}</td>
+      <td>${badgeHtml || '—'}</td>
       <td>
         <button class="btn btn-ghost btn-sm" onclick="openPlayerModal('${p.id}')">Edit</button>
         <button class="btn btn-danger btn-sm" onclick="removePlayer('${p.id}')">Del</button>
@@ -464,7 +464,7 @@ function renderPlayers(list) {
 window.searchPlayers = (q) => renderPlayers(allPlayers.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())));
 function populatePlayerSelect() {
   const sel = document.getElementById('pm-player-select');
-  sel.innerHTML = '<option value="">â€” Choose â€”</option>' + allPlayers.map(p=>`<option value="${p.id}">${p.name} (${p.sport})</option>`).join('');
+  sel.innerHTML = '<option value="">— Choose —</option>' + allPlayers.map(p=>`<option value="${p.id}">${p.name} (${p.sport})</option>`).join('');
 }
 window.openPlayerModal = (uid=null) => {
   ['pm-position','pm-jersey','pm-matches','pm-goals','pm-assists','pm-fitness'].forEach(id=>document.getElementById(id).value='');
@@ -557,7 +557,7 @@ async function loadAttHistory() {
     return `<div class="card-box" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center">
       <div>
         <strong style="color:var(--white)">${s.sessionName}</strong>
-        <div style="font-size:.75rem;color:var(--muted)">${fmtDate(s.date)} Â· ${present}/${total} present</div>
+        <div style="font-size:.75rem;color:var(--muted)">${fmtDate(s.date)} · ${present}/${total} present</div>
         <div class="att-percent-bar" style="width:200px;margin-top:.4rem">
           <div class="att-percent-fill" style="width:${pct}%;background:${pct>70?'var(--green)':pct>40?'var(--gold)':'var(--red)'}"></div>
         </div>
@@ -571,13 +571,20 @@ window.delSession = async (id) => {
   await deleteAttendanceSession(id); loadAttHistory();
 };
 
-// â”€â”€ ðŸ’¬ TEAM CHAT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â”€â”€ 💬 TEAM CHAT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initChat() {
-  const q = query(collection(db, 'chat'), orderBy('ts', 'asc'));
-  onSnapshot(q, snap => {
-    const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderChat(msgs);
-  });
+  try {
+    const q = query(collection(db, 'chat'), orderBy('ts', 'asc'));
+    onSnapshot(q, snap => {
+      const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderChat(msgs);
+    }, err => {
+      console.warn('[Firestore Chat] using fallback:', err.message);
+      getChatMessages().then(msgs => renderChat(msgs));
+    });
+  } catch(e) {
+    getChatMessages().then(msgs => renderChat(msgs));
+  }
 }
 function renderChat(msgs) {
   const el = document.getElementById('chat-messages');
@@ -589,7 +596,7 @@ function renderChat(msgs) {
       <div class="msg-avatar" style="${mine?'background:var(--blue)':''}">${(m.senderName||'?')[0]}</div>
       <div>
         <div class="msg-content">
-          ${!mine?`<div class="msg-name">${m.senderName||'User'} Â· <span class="role-badge role-${m.role||'player'}" style="font-size:.6rem;padding:.1rem .4rem">${m.role||''}</span></div>`:''}
+          ${!mine?`<div class="msg-name">${m.senderName||'User'} · <span class="role-badge role-${m.role||'player'}" style="font-size:.6rem;padding:.1rem .4rem">${m.role||''}</span></div>`:''}
           <div class="msg-text">${m.text}</div>
         </div>
         <div class="msg-time" style="${mine?'text-align:right':''}">${ts}</div>
@@ -614,8 +621,8 @@ function renderMatches(list) {
     const result = m.status==='completed'
       ? (m.scoreUs>m.scoreThem?'<span class="badge badge-green">WIN</span>'
         :m.scoreUs<m.scoreThem?'<span class="badge badge-red">LOSS</span>'
-        :'<span class="badge badge-muted">DRAW</span>') : 'â€”';
-    const score = m.status==='completed'?`${m.scoreUs||0} â€“ ${m.scoreThem||0}`:'â€”';
+        :'<span class="badge badge-muted">DRAW</span>') : '—';
+    const score = m.status==='completed'?`${m.scoreUs||0} â€“ ${m.scoreThem||0}`:'—';
     return `<tr>
       <td>${fmtDate(m.date)}</td><td><strong>${m.opponent}</strong></td>
       <td>${m.venue}</td><td>${m.sport}</td>
@@ -690,7 +697,7 @@ function renderTraining(list) {
     <h3 style="color:var(--white);margin-bottom:.5rem;font-size:1rem">${t.title}</h3>
     <p style="color:var(--muted);font-size:.83rem;line-height:1.7;margin-bottom:.8rem">${t.description}</p>
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <span style="font-size:.75rem;color:var(--muted)">â± ${t.duration}</span>
+      <span style="font-size:.75rem;color:var(--muted)">⏱️ ${t.duration}</span>
       <button class="btn btn-danger btn-sm" onclick="removePlan('${t.id}')">Delete</button>
     </div>
     ${t.tags?`<div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.8rem">${t.tags.split(',').map(tg=>`<span style="font-size:.68rem;padding:.2rem .55rem;border-radius:20px;background:rgba(41,121,255,.1);color:#82aaff">${tg.trim()}</span>`).join('')}</div>`:''}
@@ -709,7 +716,7 @@ function renderAnn(list) {
     <div style="width:10px;height:10px;border-radius:50%;background:${colors[a.priority]||'var(--blue)'};flex-shrink:0;margin-top:5px"></div>
     <div style="flex:1"><strong style="color:var(--white)">${a.title}</strong>
     <p style="font-size:.83rem;color:var(--muted);margin-top:.3rem;line-height:1.6">${a.body}</p>
-    <div style="font-size:.7rem;color:var(--muted);margin-top:.4rem">${fmtDateTime(a.createdAt)} Â· by ${a.postedBy||'Coach'}</div></div>
+    <div style="font-size:.7rem;color:var(--muted);margin-top:.4rem">${fmtDateTime(a.createdAt)} · by ${a.postedBy||'Coach'}</div></div>
     <button class="btn btn-danger btn-sm" onclick="removeAnn('${a.id}')">Del</button>
   </div>`).join('');
 }

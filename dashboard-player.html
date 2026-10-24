@@ -3,35 +3,35 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>CoachHub â€” Player Portal</title>
+<title>CoachHub — Player Portal</title>
 <link rel="stylesheet" href="css/style.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body style="display:flex">
 
-<button class="theme-toggle" id="theme-toggle" title="Toggle light/dark">ðŸŒ™</button>
+<button class="theme-toggle" id="theme-toggle" title="Toggle light/dark">🌙</button>
 
 <aside class="sidebar">
   <div class="sidebar-logo"><h1>Coach<span>Hub</span></h1><p>Player Portal</p></div>
   <nav class="sidebar-nav">
-    <button class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">ðŸ </span>My Dashboard</button>
+    <button class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">🏠</span>My Dashboard</button>
     <button class="nav-item" onclick="showPage('stats',this)"><span class="icon">📊</span>My Stats</button>
     <button class="nav-item" onclick="showPage('badges',this)"><span class="icon">🏅</span>My Badges</button>
     <button class="nav-item" onclick="showPage('attendance',this)"><span class="icon">📅</span>Attendance</button>
     <button class="nav-item" onclick="showPage('matches',this)"><span class="icon">⚽</span>Matches</button>
     <button class="nav-item" onclick="showPage('leaderboard',this)"><span class="icon">🏆</span>Leaderboard</button>
     <button class="nav-item" onclick="showPage('training',this)"><span class="icon">💪</span>Training Plans</button>
-    <button class="nav-item" onclick="showPage('chat',this)"><span class="icon">ðŸ’¬</span>Team Chat</button>
+    <button class="nav-item" onclick="showPage('chat',this)"><span class="icon">💬</span>Team Chat</button>
     <button class="nav-item" onclick="showPage('announcements',this)"><span class="icon">ðŸ“¢</span>Announcements</button>
-    <button class="nav-item" onclick="showPage('profile',this)"><span class="icon">ðŸ‘¤</span>My Profile</button>
+    <button class="nav-item" onclick="showPage('profile',this)"><span class="icon">👤</span>My Profile</button>
   </nav>
   <div class="sidebar-bottom">
     <div class="user-badge">
       <div class="user-avatar" id="player-avatar">P</div>
       <div class="user-info"><p id="player-name">Player</p><span class="role-badge role-player">Player</span></div>
     </div>
-    <button class="logout-btn" onclick="handleLogout()">â¬… Logout</button>
+    <button class="logout-btn" onclick="handleLogout()">⬅ Logout</button>
   </div>
 </aside>
 
@@ -56,10 +56,10 @@
   <!-- DASHBOARD -->
   <div class="page active" id="page-dashboard">
     <div class="stat-row">
-      <div class="stat-card sc-blue"><div class="stat-icon">⚽</div><div class="stat-val" id="s-matches">â€”</div><div class="stat-label">Matches Played</div></div>
-      <div class="stat-card sc-cyan"><div class="stat-icon">ðŸ¥…</div><div class="stat-val" id="s-goals">â€”</div><div class="stat-label">Goals Scored</div></div>
-      <div class="stat-card sc-gold"><div class="stat-icon">ðŸ¤</div><div class="stat-val" id="s-assists">â€”</div><div class="stat-label">Assists</div></div>
-      <div class="stat-card sc-green"><div class="stat-icon">💪</div><div class="stat-val" id="s-fitness">â€”%</div><div class="stat-label">Fitness Score</div></div>
+      <div class="stat-card sc-blue"><div class="stat-icon">⚽</div><div class="stat-val" id="s-matches">—</div><div class="stat-label">Matches Played</div></div>
+      <div class="stat-card sc-cyan"><div class="stat-icon">ðŸ¥…</div><div class="stat-val" id="s-goals">—</div><div class="stat-label">Goals Scored</div></div>
+      <div class="stat-card sc-gold"><div class="stat-icon">🤝</div><div class="stat-val" id="s-assists">—</div><div class="stat-label">Assists</div></div>
+      <div class="stat-card sc-green"><div class="stat-icon">💪</div><div class="stat-val" id="s-fitness">—%</div><div class="stat-label">Fitness Score</div></div>
     </div>
     <div class="two-col">
       <div>
@@ -73,11 +73,11 @@
         <div class="sec-header" style="margin-top:1.5rem"><div class="sec-title">My Info</div></div>
         <div class="card-box">
           <table style="width:100%">
-            <tr><td style="color:var(--muted);font-size:.82rem;padding:.4rem 0">Sport</td><td id="info-sport" style="font-size:.88rem">â€”</td></tr>
-            <tr><td style="color:var(--muted);font-size:.82rem;padding:.4rem 0">Position</td><td id="info-pos" style="font-size:.88rem">â€”</td></tr>
-            <tr><td style="color:var(--muted);font-size:.82rem;padding:.4rem 0">Jersey #</td><td id="info-jersey" style="font-size:.88rem">â€”</td></tr>
-            <tr><td style="color:var(--muted);font-size:.82rem;padding:.4rem 0">Status</td><td id="info-status" style="font-size:.88rem">â€”</td></tr>
-            <tr><td style="color:var(--muted);font-size:.82rem;padding:.4rem 0">Team Code</td><td id="info-team" style="font-size:.88rem">â€”</td></tr>
+            <tr><td style="color:var(--muted);font-size:.82rem;padding:.4rem 0">Sport</td><td id="info-sport" style="font-size:.88rem">—</td></tr>
+            <tr><td style="color:var(--muted);font-size:.82rem;padding:.4rem 0">Position</td><td id="info-pos" style="font-size:.88rem">—</td></tr>
+            <tr><td style="color:var(--muted);font-size:.82rem;padding:.4rem 0">Jersey #</td><td id="info-jersey" style="font-size:.88rem">—</td></tr>
+            <tr><td style="color:var(--muted);font-size:.82rem;padding:.4rem 0">Status</td><td id="info-status" style="font-size:.88rem">—</td></tr>
+            <tr><td style="color:var(--muted);font-size:.82rem;padding:.4rem 0">Team Code</td><td id="info-team" style="font-size:.88rem">—</td></tr>
           </table>
         </div>
       </div>
@@ -120,7 +120,7 @@
     <div class="sec-header"><div class="sec-title">My Attendance</div></div>
     <div class="card-box" style="margin-bottom:1.5rem;max-width:400px">
       <div style="font-size:.8rem;color:var(--muted);margin-bottom:.4rem">Overall Attendance Rate</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:2.5rem;font-weight:700;color:var(--cyan)" id="att-pct">â€”%</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:2.5rem;font-weight:700;color:var(--cyan)" id="att-pct">—%</div>
       <div class="att-percent-bar" style="margin-top:.5rem"><div class="att-percent-fill" id="att-pct-bar" style="width:0%"></div></div>
     </div>
     <div id="att-sessions-list"><p class="text-muted">Loading attendance records...</p></div>
@@ -155,7 +155,7 @@
     <div id="p-training-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem"><p class="text-muted">Loading...</p></div>
   </div>
 
-  <!-- ðŸ’¬ CHAT -->
+  <!-- 💬 CHAT -->
   <div class="page" id="page-chat">
     <div class="sec-header"><div class="sec-title">Team Chat</div></div>
     <div class="chat-wrap">
@@ -182,7 +182,7 @@
       <div class="card-box">
         <div style="display:flex;align-items:center;gap:1.2rem;margin-bottom:1.5rem">
           <div class="user-avatar" style="width:64px;height:64px;font-size:1.6rem" id="profile-avatar">P</div>
-          <div><h3 id="profile-name" style="font-size:1.2rem;color:var(--white)">â€”</h3><span class="role-badge role-player">Player</span></div>
+          <div><h3 id="profile-name" style="font-size:1.2rem;color:var(--white)">—</h3><span class="role-badge role-player">Player</span></div>
         </div>
         <div class="form-group"><label>Full Name</label><input type="text" id="pp-name"/></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
@@ -199,12 +199,12 @@
 </main>
 
 <script type="module">
-import { requireAuth, logoutUser } from './auth.js';
+import { requireAuth, logoutUser } from './js/auth.js';
 import { getPlayer, updateUser, getAllMatches, getAnnouncements,
          getLeaderboard, getTrainingPlans, fmtDate, fmtDateTime,
          getAttendanceSessions, sendChatMessage, getChatMessages,
-         getProgressSnapshots } from './db.js';
-import { db } from './firebase-config.js';
+         getProgressSnapshots } from './js/db.js';
+import { db } from './js/firebase-config.js';
 import { collection, onSnapshot, orderBy, query }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -215,11 +215,11 @@ const BADGE_DEFS = [
   { id:'goals5',   icon:'🎯', label:'5 Goals',       desc:'Score 5 goals',            check:p=>(p.goals||0)>=5,    color:'var(--cyan)' },
   { id:'goals10',  icon:'⚽', label:'10 Goals',      desc:'Score 10 goals',           check:p=>(p.goals||0)>=10,   color:'var(--gold)' },
   { id:'goals20',  icon:'🔥', label:'20 Goals',      desc:'Score 20 goals',           check:p=>(p.goals||0)>=20,   color:'var(--red)'  },
-  { id:'assists5', icon:'ðŸ¤', label:'5 Assists',     desc:'Make 5 assists',           check:p=>(p.assists||0)>=5,  color:'var(--green)' },
+  { id:'assists5', icon:'🤝', label:'5 Assists',     desc:'Make 5 assists',           check:p=>(p.assists||0)>=5,  color:'var(--green)' },
   { id:'matches10',icon:'ðŸƒ', label:'10 Matches',    desc:'Play 10 matches',          check:p=>(p.matchesPlayed||0)>=10, color:'var(--blue)' },
   { id:'matches20',icon:'ðŸŸï¸','label':'20 Matches',   desc:'Play 20 matches',          check:p=>(p.matchesPlayed||0)>=20, color:'#82aaff' },
   { id:'fitness90',icon:'💪', label:'Peak Fitness',  desc:'Reach 90% fitness score',  check:p=>(p.fitnessScore||0)>=90, color:'#e040fb' },
-  { id:'allround', icon:'â­', label:'All-Rounder',   desc:'Goals + Assists â‰¥ 10',     check:p=>((p.goals||0)+(p.assists||0))>=10, color:'var(--gold)' },
+  { id:'allround', icon:'⭐', label:'All-Rounder',   desc:'Goals + Assists ≥ 10',     check:p=>((p.goals||0)+(p.assists||0))>=10, color:'var(--gold)' },
   { id:'ironman',  icon:'ðŸ›¡ï¸', label:'Iron Player',   desc:'Active with 20+ matches',  check:p=>p.status==='Active'&&(p.matchesPlayed||0)>=20, color:'var(--cyan)' },
 ];
 
@@ -252,9 +252,9 @@ async function loadAll() {
   buildNotifications();
 }
 
-// â”€â”€ ðŸŒ™ THEME â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â”€â”€ 🌙 THEME â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initTheme(){const s=localStorage.getItem('ch_theme');if(s==='light')applyTheme('light');}
-function applyTheme(mode){document.body.classList.toggle('light-mode',mode==='light');document.getElementById('theme-toggle').textContent=mode==='light'?'â˜€ï¸':'ðŸŒ™';localStorage.setItem('ch_theme',mode);}
+function applyTheme(mode){document.body.classList.toggle('light-mode',mode==='light');document.getElementById('theme-toggle').textContent=mode==='light'?'â˜€ï¸':'🌙';localStorage.setItem('ch_theme',mode);}
 document.getElementById('theme-toggle').addEventListener('click',()=>{applyTheme(document.body.classList.contains('light-mode')?'dark':'light');});
 
 // â”€â”€ 🔧” NOTIFICATIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -262,7 +262,7 @@ function buildNotifications(){
   const items=[];
   const urgent=allAnn.filter(a=>a.priority==='urgent');
   urgent.forEach(a=>items.push({icon:'ðŸš¨',text:a.title,sub:'Urgent from Coach'}));
-  if(me.status==='Injured') items.push({icon:'ðŸ¥',text:'Your status is Injured',sub:'Contact your coach'});
+  if(me.status==='Injured') items.push({icon:'🏥',text:'Your status is Injured',sub:'Contact your coach'});
   const up=allMatches.filter(m=>m.status==='upcoming').slice(0,2);
   up.forEach(m=>items.push({icon:'⚽',text:`Match vs ${m.opponent}`,sub:fmtDate(m.date)}));
   const count=document.getElementById('notif-count');
@@ -288,19 +288,19 @@ function renderDashboard(){
   document.getElementById('bar-assists').style.width=Math.min((s.assists||0)*10,100)+'%';
   document.getElementById('bar-fitness').style.width=(s.fitnessScore||0)+'%';
   document.getElementById('bar-matches').style.width=Math.min((s.matchesPlayed||0)*8,100)+'%';
-  document.getElementById('info-sport').textContent=s.sport||'â€”';
-  document.getElementById('info-pos').textContent=s.position||'â€”';
-  document.getElementById('info-jersey').textContent=s.jerseyNumber||'â€”';
+  document.getElementById('info-sport').textContent=s.sport||'—';
+  document.getElementById('info-pos').textContent=s.position||'—';
+  document.getElementById('info-jersey').textContent=s.jerseyNumber||'—';
   document.getElementById('info-status').innerHTML=`<span class="badge ${s.status==='Active'?'badge-green':s.status==='Injured'?'badge-red':'badge-orange'}">${s.status||'Active'}</span>`;
-  document.getElementById('info-team').textContent=s.teamCode||'â€”';
+  document.getElementById('info-team').textContent=s.teamCode||'—';
   const up=allMatches.filter(m=>m.status==='upcoming').slice(0,3);
-  document.getElementById('player-matches-list').innerHTML=up.length?up.map(m=>`<div class="card-box" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center"><div><strong style="color:var(--white)">${m.opponent}</strong><div style="font-size:.75rem;color:var(--muted)">${fmtDate(m.date)} Â· ${m.venue}</div></div><span class="badge badge-blue">${m.sport}</span></div>`).join(''):`<p class="text-muted">No upcoming matches</p>`;
+  document.getElementById('player-matches-list').innerHTML=up.length?up.map(m=>`<div class="card-box" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center"><div><strong style="color:var(--white)">${m.opponent}</strong><div style="font-size:.75rem;color:var(--muted)">${fmtDate(m.date)} · ${m.venue}</div></div><span class="badge badge-blue">${m.sport}</span></div>`).join(''):`<p class="text-muted">No upcoming matches</p>`;
   document.getElementById('player-ann-list').innerHTML=allAnn.slice(0,3).map(a=>`<div class="card-box" style="margin-bottom:.8rem"><strong style="color:var(--white);font-size:.9rem">${a.title}</strong><p style="font-size:.8rem;color:var(--muted);margin-top:.3rem">${a.body}</p></div>`).join('')||`<p class="text-muted">No announcements</p>`;
   // Dashboard badges preview
   const earned=BADGE_DEFS.filter(b=>b.check(me)).slice(0,4);
-  document.getElementById('dash-badges').innerHTML=earned.length?earned.map(b=>`<div class="badge-achievement" style="border-color:${b.color}20;background:${b.color}10;color:${b.color}"><span class="badge-icon">${b.icon}</span>${b.label}</div>`).join(''):`<p style="color:var(--muted);font-size:.8rem">No badges yet â€” keep playing!</p>`;
+  document.getElementById('dash-badges').innerHTML=earned.length?earned.map(b=>`<div class="badge-achievement" style="border-color:${b.color}20;background:${b.color}10;color:${b.color}"><span class="badge-icon">${b.icon}</span>${b.label}</div>`).join(''):`<p style="color:var(--muted);font-size:.8rem">No badges yet — keep playing!</p>`;
   // Detailed stats
-  document.getElementById('detailed-stats').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">${[['Matches Played',s.matchesPlayed||0],['Goals',s.goals||0],['Assists',s.assists||0],['Fitness Score',(s.fitnessScore||0)+'%'],['Position',s.position||'â€”'],['Jersey',s.jerseyNumber||'â€”']].map(([l,v])=>`<div><div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem">${l}</div><div style="font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;color:var(--cyan)">${v}</div></div>`).join('')}</div>`;
+  document.getElementById('detailed-stats').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">${[['Matches Played',s.matchesPlayed||0],['Goals',s.goals||0],['Assists',s.assists||0],['Fitness Score',(s.fitnessScore||0)+'%'],['Position',s.position||'—'],['Jersey',s.jerseyNumber||'—']].map(([l,v])=>`<div><div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem">${l}</div><div style="font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;color:var(--cyan)">${v}</div></div>`).join('')}</div>`;
 }
 
 // â”€â”€ 🏅 BADGES PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -384,12 +384,12 @@ window.exportPDF=async()=>{
   pdf.line(15,36,195,36);
   pdf.setFontSize(12); pdf.setFont('helvetica','normal');
   pdf.setTextColor(220,230,245);
-  pdf.text(`Name: ${p.name||'â€”'}`,15,50);
-  pdf.text(`Sport: ${p.sport||'â€”'}`,15,60);
-  pdf.text(`Position: ${p.position||'â€”'}`,15,70);
-  pdf.text(`Jersey #: ${p.jerseyNumber||'â€”'}`,105,70);
+  pdf.text(`Name: ${p.name||'—'}`,15,50);
+  pdf.text(`Sport: ${p.sport||'—'}`,15,60);
+  pdf.text(`Position: ${p.position||'—'}`,15,70);
+  pdf.text(`Jersey #: ${p.jerseyNumber||'—'}`,105,70);
   pdf.text(`Status: ${p.status||'Active'}`,15,80);
-  pdf.text(`Team Code: ${p.teamCode||'â€”'}`,105,80);
+  pdf.text(`Team Code: ${p.teamCode||'—'}`,105,80);
   pdf.setDrawColor(28,40,64); pdf.line(15,88,195,88);
   pdf.setTextColor(41,121,255); pdf.setFontSize(13); pdf.setFont('helvetica','bold');
   pdf.text('Performance Statistics',15,98);
@@ -407,7 +407,7 @@ window.exportPDF=async()=>{
     pdf.setTextColor(41,121,255); pdf.setFontSize(13); pdf.setFont('helvetica','bold');
     pdf.text('Achievement Badges',15,158);
     pdf.setFont('helvetica','normal'); pdf.setFontSize(11); pdf.setTextColor(220,230,245);
-    earned.forEach((b,i)=>pdf.text(`${b.icon} ${b.label} â€” ${b.desc}`,15,170+i*10));
+    earned.forEach((b,i)=>pdf.text(`${b.icon} ${b.label} — ${b.desc}`,15,170+i*10));
   }
   pdf.setFontSize(9); pdf.setTextColor(85,106,138);
   pdf.text(`Generated: ${new Date().toLocaleString('en-GB')} | CoachHub SportsPMS`,15,285);
@@ -419,8 +419,8 @@ function renderMatchesTable(list){
   const tbody=document.getElementById('p-matches-tbody');
   if(!list.length){tbody.innerHTML=`<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:2rem">No matches yet</td></tr>`;return;}
   tbody.innerHTML=list.map(m=>{
-    const result=m.status==='completed'?(m.scoreUs>m.scoreThem?'<span class="badge badge-green">WIN</span>':m.scoreUs<m.scoreThem?'<span class="badge badge-red">LOSS</span>':'<span class="badge badge-muted">DRAW</span>'):'â€”';
-    return `<tr><td>${fmtDate(m.date)}</td><td><strong>${m.opponent}</strong></td><td>${m.venue}</td><td>${m.sport}</td><td><span class="badge badge-blue">${m.type}</span></td><td>${m.status==='completed'?`${m.scoreUs||0} â€“ ${m.scoreThem||0}`:'â€”'}</td><td>${result}</td></tr>`;
+    const result=m.status==='completed'?(m.scoreUs>m.scoreThem?'<span class="badge badge-green">WIN</span>':m.scoreUs<m.scoreThem?'<span class="badge badge-red">LOSS</span>':'<span class="badge badge-muted">DRAW</span>'):'—';
+    return `<tr><td>${fmtDate(m.date)}</td><td><strong>${m.opponent}</strong></td><td>${m.venue}</td><td>${m.sport}</td><td><span class="badge badge-blue">${m.type}</span></td><td>${m.status==='completed'?`${m.scoreUs||0} â€“ ${m.scoreThem||0}`:'—'}</td><td>${result}</td></tr>`;
   }).join('');
 }
 window.filterMatches=(f,btn)=>{btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderMatchesTable(f==='all'?allMatches:allMatches.filter(m=>m.status===f));};
@@ -438,7 +438,7 @@ function renderTraining(){
   const cats={Speed:'var(--cyan)',Strength:'var(--gold)',Stamina:'var(--green)',Agility:'var(--blue)',Recovery:'#69f0ae',Diet:'#e040fb',Tactical:'var(--orange)'};
   const el=document.getElementById('p-training-list');
   if(!allTraining.length){el.innerHTML=`<p class="text-muted">No training plans added by coach yet.</p>`;return;}
-  el.innerHTML=allTraining.map(t=>`<div class="card-box"><div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:${cats[t.category]||'var(--cyan)'};margin-bottom:.6rem;font-weight:600">${t.category}</div><h3 style="color:var(--white);margin-bottom:.5rem;font-size:1rem">${t.title}</h3><p style="color:var(--muted);font-size:.83rem;line-height:1.7;margin-bottom:.8rem">${t.description}</p><span style="font-size:.75rem;color:var(--muted)">â± ${t.duration}</span></div>`).join('');
+  el.innerHTML=allTraining.map(t=>`<div class="card-box"><div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:${cats[t.category]||'var(--cyan)'};margin-bottom:.6rem;font-weight:600">${t.category}</div><h3 style="color:var(--white);margin-bottom:.5rem;font-size:1rem">${t.title}</h3><p style="color:var(--muted);font-size:.83rem;line-height:1.7;margin-bottom:.8rem">${t.description}</p><span style="font-size:.75rem;color:var(--muted)">⏱️ ${t.duration}</span></div>`).join('');
 }
 
 // â”€â”€ ANNOUNCEMENTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -449,10 +449,17 @@ function renderAnn(){
   el.innerHTML=allAnn.map(a=>`<div class="card-box" style="margin-bottom:1rem;display:flex;gap:1rem;align-items:flex-start"><div style="width:10px;height:10px;border-radius:50%;background:${colors[a.priority]||'var(--blue)'};flex-shrink:0;margin-top:5px"></div><div><strong style="color:var(--white)">${a.title}</strong><p style="font-size:.83rem;color:var(--muted);margin-top:.3rem;line-height:1.6">${a.body}</p><div style="font-size:.7rem;color:var(--muted);margin-top:.4rem">${fmtDateTime(a.createdAt)}</div></div></div>`).join('');
 }
 
-// â”€â”€ ðŸ’¬ CHAT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â”€â”€ 💬 CHAT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function initChat(){
-  const q=query(collection(db,'chat'),orderBy('ts','asc'));
-  onSnapshot(q,snap=>{renderChat(snap.docs.map(d=>({id:d.id,...d.data()})));});
+  try {
+    const q=query(collection(db,'chat'),orderBy('ts','asc'));
+    onSnapshot(q,snap=>{renderChat(snap.docs.map(d=>({id:d.id,...d.data()})));}, err => {
+      console.warn('[Firestore Chat] using fallback:', err.message);
+      getChatMessages().then(msgs => renderChat(msgs));
+    });
+  } catch(e) {
+    getChatMessages().then(msgs => renderChat(msgs));
+  }
 }
 function renderChat(msgs){
   const el=document.getElementById('chat-messages');
@@ -460,7 +467,7 @@ function renderChat(msgs){
   el.innerHTML=msgs.map(m=>{
     const mine=m.uid===me?.uid;
     const ts=m.ts?.toDate?m.ts.toDate().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}):'';
-    return `<div class="msg-bubble ${mine?'mine':''}"><div class="msg-avatar" style="${mine?'background:var(--green)':''}">${(m.senderName||'?')[0]}</div><div><div class="msg-content">${!mine?`<div class="msg-name">${m.senderName||'User'} Â· <span class="role-badge role-${m.role||'player'}" style="font-size:.6rem;padding:.1rem .4rem">${m.role||''}</span></div>`:''}<div class="msg-text">${m.text}</div></div><div class="msg-time" style="${mine?'text-align:right':''}">${ts}</div></div></div>`;
+    return `<div class="msg-bubble ${mine?'mine':''}"><div class="msg-avatar" style="${mine?'background:var(--green)':''}">${(m.senderName||'?')[0]}</div><div><div class="msg-content">${!mine?`<div class="msg-name">${m.senderName||'User'} · <span class="role-badge role-${m.role||'player'}" style="font-size:.6rem;padding:.1rem .4rem">${m.role||''}</span></div>`:''}<div class="msg-text">${m.text}</div></div><div class="msg-time" style="${mine?'text-align:right':''}">${ts}</div></div></div>`;
   }).join('');
   el.scrollTop=el.scrollHeight;
 }
