@@ -14,42 +14,62 @@ import { initSQL, sqlUpsertUser, sqlUpsertPlayer, sqlUpsertMatch }
 // Ensure SQL is ready (no-op if already initialised)
 initSQL().catch(e => console.warn('[SQL] init skipped:', e.message));
 
-// ── DEFAULT SEED DATA (from DBMS Academic Project Specifications) ──
+// ── OFFICIAL CHENNAI SUPER KINGS (CSK) IPL 2026 SQUAD (11 PLAYING XI + 4 SUBSTITUTES = 15 PLAYERS) ──
+const LEGACY_PLACEHOLDER_IDS = [
+  'cric_p02', 'cric_p03', 'cric_p04', 'cric_p05', 'cric_p06',
+  'cric_p07', 'cric_p08', 'cric_p09', 'cric_p10', 'cric_p11',
+  'cric_sub01', 'cric_sub02', 'cric_sub03', 'cric_sub04'
+];
+
+export const CRICKET_SQUAD_TEMPLATES = [
+  // 11 Playing XI (Active)
+  { id: 'csk_01', uid: 'csk_01', name: 'Ruturaj Gaikwad',  email: 'ruturaj@chennaisuperkings.com', sport: 'Cricket', teamCode: 'CSK2026', position: 'Captain / Opening Batsman',     jerseyNumber: '31', runs: 2839, wickets: 0,  goals: 2839, assists: 0,  matchesPlayed: 85,  fitnessScore: 97, status: 'Active' },
+  { id: 'csk_02', uid: 'csk_02', name: 'Ayush Mhatre',     email: 'ayush@chennaisuperkings.com',   sport: 'Cricket', teamCode: 'CSK2026', position: 'Opening Batsman',               jerseyNumber: '19', runs: 441,  wickets: 0,  goals: 441,  assists: 0,  matchesPlayed: 13,  fitnessScore: 93, status: 'Active' },
+  { id: 'csk_03', uid: 'csk_03', name: 'Sanju Samson',     email: 'sanju@chennaisuperkings.com',   sport: 'Cricket', teamCode: 'CSK2026', position: 'Wicket-Keeper / Top-Order',     jerseyNumber: '11', runs: 5181, wickets: 0,  goals: 5181, assists: 0,  matchesPlayed: 191, fitnessScore: 95, status: 'Active' },
+  { id: 'csk_04', uid: 'csk_04', name: 'Shivam Dube',      email: 'dube@chennaisuperkings.com',    sport: 'Cricket', teamCode: 'CSK2026', position: 'Middle-Order All-Rounder',      jerseyNumber: '25', runs: 2129, wickets: 6,  goals: 2129, assists: 6,  matchesPlayed: 92,  fitnessScore: 92, status: 'Active' },
+  { id: 'csk_05', uid: 'csk_05', name: 'Dewald Brevis',    email: 'brevis@chennaisuperkings.com',  sport: 'Cricket', teamCode: 'CSK2026', position: 'Explosive Middle-Order Batter', jerseyNumber: '12', runs: 606,  wickets: 1,  goals: 606,  assists: 1,  matchesPlayed: 27,  fitnessScore: 94, status: 'Active' },
+  { id: 'csk_06', uid: 'csk_06', name: 'MS Dhoni',         email: 'dhoni@chennaisuperkings.com',   sport: 'Cricket', teamCode: 'CSK2026', position: 'Wicket-Keeper / Finisher',      jerseyNumber: '07', runs: 5439, wickets: 0,  goals: 5439, assists: 0,  matchesPlayed: 278, fitnessScore: 94, status: 'Active' },
+  { id: 'csk_07', uid: 'csk_07', name: 'Jamie Overton',    email: 'overton@chennaisuperkings.com', sport: 'Cricket', teamCode: 'CSK2026', position: 'Pace All-Rounder',              jerseyNumber: '08', runs: 151,  wickets: 14, goals: 151,  assists: 14, matchesPlayed: 13,  fitnessScore: 91, status: 'Active' },
+  { id: 'csk_08', uid: 'csk_08', name: 'Anshul Kamboj',    email: 'kamboj@chennaisuperkings.com',  sport: 'Cricket', teamCode: 'CSK2026', position: 'Pace All-Rounder',              jerseyNumber: '35', runs: 74,   wickets: 31, goals: 74,   assists: 31, matchesPlayed: 25,  fitnessScore: 93, status: 'Active' },
+  { id: 'csk_09', uid: 'csk_09', name: 'Noor Ahmad',       email: 'noor@chennaisuperkings.com',    sport: 'Cricket', teamCode: 'CSK2026', position: 'Left-Arm Wrist Spinner',        jerseyNumber: '15', runs: 31,   wickets: 61, goals: 31,   assists: 61, matchesPlayed: 51,  fitnessScore: 95, status: 'Active' },
+  { id: 'csk_10', uid: 'csk_10', name: 'Khaleel Ahmed',    email: 'khaleel@chennaisuperkings.com', sport: 'Cricket', teamCode: 'CSK2026', position: 'Left-Arm Fast Bowler',          jerseyNumber: '71', runs: 2,    wickets: 91, goals: 2,    assists: 91, matchesPlayed: 76,  fitnessScore: 92, status: 'Active' },
+  { id: 'csk_11', uid: 'csk_11', name: 'Nathan Ellis',     email: 'ellis@chennaisuperkings.com',   sport: 'Cricket', teamCode: 'CSK2026', position: 'Fast Bowler (Death Overs)',     jerseyNumber: '72', runs: 19,   wickets: 19, goals: 19,   assists: 19, matchesPlayed: 17,  fitnessScore: 94, status: 'Active' },
+  // 4 Substitutes / Impact Bench (Official 15-Member CSK IPL 2026 Squad: 11 Playing XI + 4 Substitutes)
+  { id: 'csk_12', uid: 'csk_12', name: 'Sarfaraz Khan',    email: 'sarfaraz@chennaisuperkings.com',sport: 'Cricket', teamCode: 'CSK2026', position: 'Substitute Middle-Order Batter', jerseyNumber: '97', runs: 746,  wickets: 0,  goals: 746,  assists: 0,  matchesPlayed: 60,  fitnessScore: 89, status: 'Substitute' },
+  { id: 'csk_13', uid: 'csk_13', name: 'Urvil Patel',      email: 'urvil@chennaisuperkings.com',   sport: 'Cricket', teamCode: 'CSK2026', position: 'Substitute Wicket-Keeper',       jerseyNumber: '27', runs: 197,  wickets: 0,  goals: 197,  assists: 0,  matchesPlayed: 10,  fitnessScore: 91, status: 'Substitute' },
+  { id: 'csk_14', uid: 'csk_14', name: 'Rahul Chahar',     email: 'chahar@chennaisuperkings.com',  sport: 'Cricket', teamCode: 'CSK2026', position: 'Substitute Leg-Spinner',         jerseyNumber: '17', runs: 129,  wickets: 75, goals: 129,  assists: 75, matchesPlayed: 80,  fitnessScore: 90, status: 'Substitute' },
+  { id: 'csk_15', uid: 'csk_15', name: 'Mukesh Choudhary', email: 'mukesh@chennaisuperkings.com',  sport: 'Cricket', teamCode: 'CSK2026', position: 'Substitute Left-Arm Pacer',      jerseyNumber: '90', runs: 8,    wickets: 25, goals: 8,    assists: 25, matchesPlayed: 24,  fitnessScore: 91, status: 'Substitute' }
+];
+
+// ── DEFAULT SEED DATA (Official CSK 2026 15-Member Squad) ──
 export const SEED_PLAYERS = [
-  { id: 'p_01', uid: 'p_01', name: 'Dhanush K', email: 'dhanush@sportsms.edu', sport: 'Football', teamCode: 'STORM2026', position: 'Forward', jerseyNumber: '10', goals: 18, assists: 9, matchesPlayed: 22, fitnessScore: 94, status: 'Active' },
-  { id: 'p_02', uid: 'p_02', name: 'Dharanidharan A', email: 'dharani@sportsms.edu', sport: 'Football', teamCode: 'STORM2026', position: 'Midfielder', jerseyNumber: '7', goals: 12, assists: 15, matchesPlayed: 24, fitnessScore: 96, status: 'Active' },
-  { id: 'p_03', uid: 'p_03', name: 'Dharsan B V', email: 'dharsan@sportsms.edu', sport: 'Basketball', teamCode: 'STORM2026', position: 'Point Guard', jerseyNumber: '23', goals: 25, assists: 14, matchesPlayed: 20, fitnessScore: 91, status: 'Active' },
-  { id: 'p_04', uid: 'p_04', name: 'Arun Kumar', email: 'arun@sportsms.edu', sport: 'Football', teamCode: 'STORM2026', position: 'Defender', jerseyNumber: '4', goals: 3, assists: 7, matchesPlayed: 19, fitnessScore: 88, status: 'Active' },
-  { id: 'p_05', uid: 'p_05', name: 'Vigneshwaran S', email: 'vignesh@sportsms.edu', sport: 'Cricket', teamCode: 'STORM2026', position: 'All-Rounder', jerseyNumber: '18', goals: 15, assists: 11, matchesPlayed: 17, fitnessScore: 90, status: 'Active' },
-  { id: 'p_06', uid: 'p_06', name: 'Praveen Raj', email: 'praveen@sportsms.edu', sport: 'Athletics', teamCode: 'STORM2026', position: 'Sprinter', jerseyNumber: '1', goals: 8, assists: 2, matchesPlayed: 14, fitnessScore: 98, status: 'Active' },
-  { id: 'p_07', uid: 'p_07', name: 'Rohit Sharma', email: 'rohit@sportsms.edu', sport: 'Cricket', teamCode: 'STORM2026', position: 'Batsman', jerseyNumber: '45', goals: 22, assists: 10, matchesPlayed: 25, fitnessScore: 89, status: 'Active' },
-  { id: 'p_08', uid: 'p_08', name: 'Santhosh M', email: 'santhosh@sportsms.edu', sport: 'Kabaddi', teamCode: 'STORM2026', position: 'Raider', jerseyNumber: '9', goals: 19, assists: 4, matchesPlayed: 16, fitnessScore: 92, status: 'Injured' }
+  ...CRICKET_SQUAD_TEMPLATES
 ];
 
 export const SEED_COACHES = [
-  { id: 'c_01', uid: 'c_01', name: 'Mrs. K. Karpoora Sundari', email: 'karpoora@krct.ac.in', specialization: 'Head Coach & Athletics', experience: '10 Years', sport: 'Football', teamCode: 'STORM2026' },
-  { id: 'c_02', uid: 'c_02', name: 'Coach Anand V', email: 'anand@sportsms.edu', specialization: 'Tactical Offense', experience: '8 Years', sport: 'Basketball', teamCode: 'STORM2026' },
-  { id: 'c_03', uid: 'c_03', name: 'Coach Rajesh K', email: 'rajesh@sportsms.edu', specialization: 'Fitness & Conditioning', experience: '6 Years', sport: 'Cricket', teamCode: 'STORM2026' }
+  { id: 'c_01', uid: 'c_01', name: 'Zaheer Khan',     email: 'zaheer@chennaisuperkings.com',  specialization: 'Head Coach', experience: '12 Years', sport: 'Cricket', teamCode: 'CSK2026' },
+  { id: 'c_02', uid: 'c_02', name: 'Michael Hussey',  email: 'hussey@chennaisuperkings.com',  specialization: 'Batting Coach', experience: '8 Years', sport: 'Cricket', teamCode: 'CSK2026' },
+  { id: 'c_03', uid: 'c_03', name: 'Eric Simons',     email: 'simons@chennaisuperkings.com',  specialization: 'Bowling Consultant', experience: '10 Years', sport: 'Cricket', teamCode: 'CSK2026' }
 ];
 
 export const SEED_MATCHES = [
-  { id: 'm_01', title: 'State Championship Semi-Final', opponent: 'Anna University Tigers', date: '2026-11-05', time: '15:30', venue: 'KRCT Sports Arena', result: 'Upcoming' },
-  { id: 'm_02', title: 'Regional League Match', opponent: 'NIT Trichy Hawks', date: '2026-10-28', time: '14:00', venue: 'City Stadium', result: 'Won 3-1' },
-  { id: 'm_03', title: 'Inter-College Derby', opponent: 'PSG Tech Lions', date: '2026-10-15', time: '16:00', venue: 'PSG Ground', result: 'Won 2-0' },
-  { id: 'm_04', title: 'Autumn Invitational', opponent: 'SASTRA Warriors', date: '2026-10-02', time: '10:00', venue: 'KRCT Sports Arena', result: 'Draw 1-1' },
-  { id: 'm_05', title: 'South Zone Trophy', opponent: 'SRM Gladiators', date: '2026-09-18', time: '15:00', venue: 'SRM Complex', result: 'Won 4-2' }
+  { id: 'm_01', title: 'IPL 2026 El Clasico', opponent: 'Mumbai Indians (MI)', date: '2026-11-15', time: '19:30', venue: 'M. A. Chidambaram Stadium, Chepauk', sport: 'Cricket', type: 'IPL League', status: 'upcoming', result: 'Upcoming' },
+  { id: 'm_02', title: 'Southern Derby', opponent: 'Royal Challengers Bengaluru (RCB)', date: '2026-10-28', time: '19:30', venue: 'M. A. Chidambaram Stadium, Chepauk', sport: 'Cricket', type: 'IPL League', status: 'completed', scoreUs: 198, scoreThem: 176, result: 'Won by 22 runs' },
+  { id: 'm_03', title: 'Chepauk Fortress Match', opponent: 'Kolkata Knight Riders (KKR)', date: '2026-10-18', time: '19:30', venue: 'M. A. Chidambaram Stadium, Chepauk', sport: 'Cricket', type: 'IPL League', status: 'completed', scoreUs: 184, scoreThem: 181, result: 'Won by 3 runs' },
+  { id: 'm_04', title: 'Away Encounter', opponent: 'Rajasthan Royals (RR)', date: '2026-10-10', time: '15:30', venue: 'Sawai Mansingh Stadium, Jaipur', sport: 'Cricket', type: 'IPL League', status: 'completed', scoreUs: 172, scoreThem: 175, result: 'Lost by 3 wickets' },
+  { id: 'm_05', title: 'Sunrisers Clash', opponent: 'Sunrisers Hyderabad (SRH)', date: '2026-10-02', time: '19:30', venue: 'M. A. Chidambaram Stadium, Chepauk', sport: 'Cricket', type: 'IPL League', status: 'completed', scoreUs: 214, scoreThem: 189, result: 'Won by 25 runs' }
 ];
 
 export const SEED_ANNOUNCEMENTS = [
-  { id: 'a_01', title: 'State Championship Briefing', text: 'Mandatory technical briefing on Monday 4 PM at the Sports Complex Seminar Hall. All registered squad members must attend.', author: 'Mrs. K. Karpoora Sundari', createdAt: new Date(Date.now() - 3600000 * 4) },
-  { id: 'a_02', title: 'Morning Fitness Schedule Change', text: 'Conditioning sessions shifted to 6:30 AM due to scheduled turf irrigation and maintenance.', author: 'Coach Rajesh K', createdAt: new Date(Date.now() - 3600000 * 28) },
-  { id: 'a_03', title: 'Sports Nutrition & Recovery Camp', text: 'Special workshop with certified physiotherapist this Saturday at 10 AM. Fitness evaluations will be conducted.', author: 'Dharanidharan A', createdAt: new Date(Date.now() - 3600000 * 72) }
+  { id: 'a_01', title: 'CSK Pre-Match Tactical Briefing (vs MI)', text: 'Mandatory team meeting at 5:00 PM at Chepauk Dressing Room. Spin combinations and death-over plans will be finalized.', author: 'Zaheer Khan', createdAt: new Date(Date.now() - 3600000 * 4) },
+  { id: 'a_02', title: 'Chepauk Net Session Timing', text: 'Floodlight net practice shifted to 6:30 PM today. All Playing XI batters and impact substitutes must report on time.', author: 'Ruturaj Gaikwad', createdAt: new Date(Date.now() - 3600000 * 28) },
+  { id: 'a_03', title: 'Recovery & Ice-Bath Protocol', text: 'Mandatory recovery session with the CSK physio unit tomorrow morning at 9:30 AM for fast bowlers.', author: 'Team Management', createdAt: new Date(Date.now() - 3600000 * 72) }
 ];
 
 export const SEED_TRAINING = [
-  { id: 't_01', title: 'Cardio & Stamina Building', duration: '60 mins', intensity: 'High', sport: 'Football', schedule: 'Mon, Wed, Fri', notes: 'High-intensity interval sprints and recovery laps.' },
-  { id: 't_02', title: 'Tactical Passing & Set Pieces', duration: '45 mins', intensity: 'Medium', sport: 'Football', schedule: 'Tue, Thu', notes: 'Corner kick execution, defensive wall alignment, and quick transitions.' },
-  { id: 't_03', title: 'Strength & Core Conditioning', duration: '50 mins', intensity: 'High', sport: 'All Sports', schedule: 'Saturday', notes: 'Core stability, resistance band workouts, and agility ladder drills.' }
+  { id: 't_01', title: 'Powerplay & Death-Over Six Hitting', duration: '75 mins', intensity: 'High', sport: 'Cricket', schedule: 'Mon, Wed, Fri', notes: 'Range hitting drills vs pace and spin for Gaikwad, Samson, Dube, Brevis & Dhoni.' },
+  { id: 't_02', title: 'Yorker & Slower-Ball Execution', duration: '60 mins', intensity: 'High', sport: 'Cricket', schedule: 'Tue, Thu', notes: 'Death-over target bowling under lights with Nathan Ellis, Khaleel Ahmed, Kamboj & Mukesh.' },
+  { id: 't_03', title: 'Chepauk Spin & Fielding Drills', duration: '50 mins', intensity: 'Medium', sport: 'Cricket', schedule: 'Saturday', notes: 'Turn & bounce bowling plans for Noor Ahmad & Rahul Chahar plus high-catch reflex work.' }
 ];
 
 // Helper to seed SQLite database with initial records
@@ -87,14 +107,30 @@ export const getPlayer = async (uid) => {
     const s = await getDoc(doc(db, 'players', uid));
     if (s.exists()) return s.data();
   } catch(e) {}
-  return SEED_PLAYERS.find(p => p.uid === uid) || SEED_PLAYERS[0];
+  return SEED_PLAYERS.find(p => p.uid === uid) || null;
 };
+
+function _dedupeByNamePreferLive(list, templatePrefix) {
+  const byName = new Map();
+  for (const item of list) {
+    const key = String(item.name || item.id || '').trim().toLowerCase();
+    const prev = byName.get(key);
+    const isTemplate = String(item.id || '').startsWith(templatePrefix);
+    if (!prev || (String(prev.id || '').startsWith(templatePrefix) && !isTemplate)) {
+      byName.set(key, item);
+    }
+  }
+  return [...byName.values()];
+}
 
 export const getAllPlayers = async () => {
   try {
     const snap = await getDocs(collection(db, 'players'));
     if (!snap.empty) {
-      const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const raw = snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .filter(p => String(p.name || '').trim().toLowerCase() !== 'ram');
+      const list = _dedupeByNamePreferLive(raw, 'csk_');
       list.forEach(p => { try { sqlUpsertPlayer(p); } catch(e) {} });
       return list;
     }
@@ -113,14 +149,103 @@ export const getPlayersByTeam = async (teamCode) => {
   return SEED_PLAYERS.filter(p => !teamCode || p.teamCode === teamCode);
 };
 
+export function getStatusBadgeClass(status = 'Active') {
+  if (status === 'Active') return 'badge-green';
+  if (status === 'Substitute') return 'badge-blue';
+  if (status === 'Injured' || status === 'Suspended') return 'badge-red';
+  return 'badge-orange';
+}
+
+export async function addPlayerRecord(data) {
+  const newId = data.id || ('cric_' + Date.now());
+  const record = {
+    id: newId,
+    uid: newId,
+    sport: 'Cricket',
+    teamCode: 'CSK2026',
+    status: 'Active',
+    ...data
+  };
+  try {
+    await setDoc(doc(db, 'players', newId), { ...record, createdAt: serverTimestamp() }, { merge: true });
+  } catch (e) {
+    console.warn('[db.js] Firestore addPlayer fallback:', e.message);
+  }
+  const existing = SEED_PLAYERS.find(p => p.id === newId);
+  if (!existing) SEED_PLAYERS.push(record);
+  try { sqlUpsertPlayer(record); } catch (e) {}
+  return record;
+}
+
+export async function ensureCricketSquad(existingPlayers = []) {
+  const hasCsk = existingPlayers.some(p => String(p.id || '').startsWith('csk_'));
+  const hasLegacyPlaceholder = existingPlayers.some(p =>
+    LEGACY_PLACEHOLDER_IDS.includes(p.id) || String(p.name || '').trim().toLowerCase() === 'ram'
+  );
+  if (hasCsk && !hasLegacyPlaceholder && localStorage.getItem('ch_csk_squad_2026_v3') === '1') {
+    return false;
+  }
+
+  let changed = false;
+  let rawPlayers = existingPlayers;
+  try {
+    const rawSnap = await getDocs(collection(db, 'players'));
+    if (!rawSnap.empty) rawPlayers = rawSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch (e) {}
+
+  const hasLiveDhoni = rawPlayers.some(p =>
+    !String(p.id || '').startsWith('csk_') && String(p.name || '').trim().toLowerCase() === 'ms dhoni'
+  );
+
+  // Remove old random placeholder docs, stale 'ram' entries, and duplicate csk_06 if live Dhoni doc exists
+  for (const p of rawPlayers) {
+    const isRam = String(p.name || '').trim().toLowerCase() === 'ram';
+    const isDupDhoni = hasLiveDhoni && p.id === 'csk_06';
+    if (LEGACY_PLACEHOLDER_IDS.includes(p.id) || isRam || isDupDhoni) {
+      try {
+        await deleteDoc(doc(db, 'players', p.id));
+        changed = true;
+      } catch (e) {}
+    }
+  }
+
+  const remainingIds = new Set(
+    rawPlayers
+      .filter(p => !LEGACY_PLACEHOLDER_IDS.includes(p.id) && String(p.name || '').trim().toLowerCase() !== 'ram')
+      .map(p => p.id || p.uid)
+  );
+  const missingCsk = CRICKET_SQUAD_TEMPLATES.filter(p =>
+    !remainingIds.has(p.id) && !(hasLiveDhoni && p.id === 'csk_06')
+  );
+
+  let wroteToFirestore = false;
+  for (const p of missingCsk) {
+    try {
+      await setDoc(doc(db, 'players', p.id), { ...p, createdAt: serverTimestamp() }, { merge: true });
+      wroteToFirestore = true;
+      changed = true;
+    } catch (e) {
+      if (!SEED_PLAYERS.some(sp => sp.id === p.id)) SEED_PLAYERS.push(p);
+    }
+    try { sqlUpsertPlayer(p); } catch (e) {}
+  }
+
+  if (wroteToFirestore || changed || hasCsk) {
+    localStorage.setItem('ch_csk_squad_2026_v3', '1');
+  }
+  return changed;
+}
+
 export async function updatePlayer(uid, data) {
   try {
     const update = { ...data, updatedAt: serverTimestamp() };
-    await updateDoc(doc(db, 'players', uid), update);
-    await updateDoc(doc(db, 'users',   uid), update);
+    await setDoc(doc(db, 'players', uid), update, { merge: true });
+    try { await updateDoc(doc(db, 'users', uid), update); } catch(_) {}
   } catch(e) {}
+  const sp = SEED_PLAYERS.find(p => p.uid === uid || p.id === uid);
+  if (sp) Object.assign(sp, data);
   try {
-    sqlUpsertPlayer({ uid, ...data });
+    sqlUpsertPlayer({ uid, ...(sp || {}), ...data });
   } catch(e) {}
 }
 
@@ -136,7 +261,12 @@ export const deletePlayer = async (uid) => {
 export const getAllCoaches = async () => {
   try {
     const snap = await getDocs(collection(db, 'coaches'));
-    if (!snap.empty) return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (!snap.empty) {
+      const liveCoaches = snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .filter(c => !/^(ram|dharani|stephen fleming)$/i.test(String(c.name || '').trim()));
+      return _dedupeByNamePreferLive([...SEED_COACHES, ...liveCoaches], 'c_');
+    }
   } catch(e) {}
   return [...SEED_COACHES];
 };
@@ -246,12 +376,118 @@ export const deleteTrainingPlan = async (id) => {
   if (idx !== -1) SEED_TRAINING.splice(idx, 1);
 };
 
+// ── SPORT-AWARE STAT HELPERS ──────────────────────────────
+export function getSportStatLabels(sport = '') {
+  const s = String(sport).trim().toLowerCase();
+  if (s === 'cricket') {
+    return {
+      isCricket: true,
+      primaryLabel: 'Runs',
+      secondaryLabel: 'Wickets',
+      primaryScoredLabel: 'Runs Scored',
+      secondaryTakenLabel: 'Wickets Taken',
+      primaryShort: 'Runs',
+      secondaryShort: 'Wkts',
+      primaryIcon: '🏏',
+      secondaryIcon: '🎯',
+      posPlaceholder: 'Batsman / Bowler / All-Rounder'
+    };
+  }
+  if (s === 'basketball') {
+    return {
+      isCricket: false,
+      primaryLabel: 'Points',
+      secondaryLabel: 'Assists',
+      primaryScoredLabel: 'Points Scored',
+      secondaryTakenLabel: 'Assists',
+      primaryShort: 'Pts',
+      secondaryShort: 'Ast',
+      primaryIcon: '🏀',
+      secondaryIcon: '🤝',
+      posPlaceholder: 'Point Guard / Forward'
+    };
+  }
+  return {
+    isCricket: false,
+    primaryLabel: 'Goals',
+    secondaryLabel: 'Assists',
+    primaryScoredLabel: 'Goals Scored',
+    secondaryTakenLabel: 'Assists',
+    primaryShort: 'Goals',
+    secondaryShort: 'Ast',
+    primaryIcon: '⚽',
+    secondaryIcon: '🤝',
+    posPlaceholder: 'Forward / Midfielder'
+  };
+}
+
+export function getPlayerPrimaryStat(p) {
+  if (!p) return 0;
+  if (String(p.sport || '').trim().toLowerCase() === 'cricket') {
+    return Number(p.runs ?? p.goals ?? 0);
+  }
+  return Number(p.goals ?? 0);
+}
+
+export function getPlayerSecondaryStat(p) {
+  if (!p) return 0;
+  if (String(p.sport || '').trim().toLowerCase() === 'cricket') {
+    return Number(p.wickets ?? p.assists ?? 0);
+  }
+  return Number(p.assists ?? 0);
+}
+
+export function getPlayerImpactScore(p) {
+  const pri = getPlayerPrimaryStat(p);
+  const sec = getPlayerSecondaryStat(p);
+  if (String(p?.sport || '').trim().toLowerCase() === 'cricket') {
+    return pri + (sec * 20);
+  }
+  return pri + sec;
+}
+
+export function getTableStatHeaders(list = []) {
+  if (!list.length) return { primary: 'Runs / Goals', secondary: 'Wickets / Assists', singleSport: false };
+  const sports = [...new Set(list.map(p => String(p.sport || '').trim().toLowerCase()).filter(Boolean))];
+  if (sports.length === 1) {
+    const m = getSportStatLabels(sports[0]);
+    return { primary: m.primaryLabel, secondary: m.secondaryLabel, singleSport: true, meta: m };
+  }
+  return { primary: 'Goals / Runs', secondary: 'Assists / Wkts', singleSport: false };
+}
+
+export function getPlayerBadges(p) {
+  const badges = [];
+  const pri = getPlayerPrimaryStat(p);
+  const sec = getPlayerSecondaryStat(p);
+  const isCricket = String(p?.sport || '').trim().toLowerCase() === 'cricket';
+
+  if (isCricket) {
+    if (pri >= 500) badges.push({ id: 'runs500', icon: '🏏', label: '500+ Runs', desc: 'Score 500 runs', color: 'var(--gold)' });
+    else if (pri >= 100) badges.push({ id: 'runs100', icon: '💯', label: '100+ Runs', desc: 'Score 100 runs', color: 'var(--cyan)' });
+    else if (pri >= 50) badges.push({ id: 'runs50', icon: '🏏', label: '50+ Runs', desc: 'Score a half-century', color: 'var(--cyan)' });
+    if (sec >= 5) badges.push({ id: 'wkts5', icon: '🎯', label: '5+ Wickets', desc: 'Take 5 wickets', color: 'var(--green)' });
+  } else {
+    if (pri >= 20) badges.push({ id: 'goals20', icon: '🔥', label: '20 Goals', desc: 'Score 20 goals', color: 'var(--red)' });
+    else if (pri >= 10) badges.push({ id: 'goals10', icon: '⚽', label: '10 Goals', desc: 'Score 10 goals', color: 'var(--gold)' });
+    else if (pri >= 5) badges.push({ id: 'goals5', icon: '🎯', label: '5 Goals', desc: 'Score 5 goals', color: 'var(--cyan)' });
+    if (sec >= 5) badges.push({ id: 'assists5', icon: '🤝', label: '5 Assists', desc: 'Make 5 assists', color: 'var(--green)' });
+  }
+
+  if ((p.matchesPlayed || 0) >= 10) badges.push({ id: 'matches10', icon: '🏃', label: '10+ Matches', desc: 'Play 10 matches', color: 'var(--blue)' });
+  if ((p.fitnessScore || 0) >= 90) badges.push({ id: 'fitness90', icon: '💪', label: 'Peak Fitness', desc: 'Reach 90% fitness score', color: '#e040fb' });
+  if (p.status === 'Active' && pri > 0 && (p.matchesPlayed || 0) > 0) {
+    badges.push({ id: 'star', icon: '⭐', label: 'Active Star', desc: 'Active key performer', color: 'var(--gold)' });
+  }
+  return badges;
+}
+
 // ── LEADERBOARD ───────────────────────────────────────────
 export const getLeaderboard = async () => {
   const players = await getAllPlayers();
   return players
     .filter(p => (p.matchesPlayed || p.matches || 0) > 0)
-    .sort((a, b) => ((b.goals || 0) + (b.assists || 0)) - ((a.goals || 0) + (a.assists || 0)));
+    .sort((a, b) => getPlayerImpactScore(b) - getPlayerImpactScore(a));
 };
 
 // ── UTIL: Format Date Helpers ─────────────────────────────
@@ -283,9 +519,9 @@ export const getAttendanceSessions = async () => {
     if (!snap.empty) return snap.docs.map(d => ({ id: d.id, ...d.data() }));
   } catch(e) {}
   return [
-    { id: 'att_01', title: 'Tactical Practice Session', date: '2026-10-22', presentCount: 18, totalCount: 20, sport: 'Football' },
-    { id: 'att_02', title: 'Strength & Core Conditioning', date: '2026-10-20', presentCount: 17, totalCount: 20, sport: 'All Sports' },
-    { id: 'att_03', title: 'Match Simulation Drills', date: '2026-10-18', presentCount: 19, totalCount: 20, sport: 'Football' }
+    { id: 'att_01', title: 'Chepauk Tactical Practice Session', date: '2026-10-22', presentCount: 14, totalCount: 15, sport: 'Cricket' },
+    { id: 'att_02', title: 'Strength & Core Conditioning', date: '2026-10-20', presentCount: 15, totalCount: 15, sport: 'Cricket' },
+    { id: 'att_03', title: 'Death-Over & Net Simulation Drills', date: '2026-10-18', presentCount: 14, totalCount: 15, sport: 'Cricket' }
   ];
 };
 

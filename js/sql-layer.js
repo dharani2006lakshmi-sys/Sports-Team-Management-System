@@ -133,7 +133,7 @@ export function sqlUpsertPlayer(p) {
   `, [
     p.uid, p.name, p.email, p.sport || null, p.teamCode || null,
     p.position || null, p.jerseyNumber || null,
-    p.goals || 0, p.assists || 0, p.matchesPlayed || 0,
+    p.runs ?? p.goals ?? 0, p.wickets ?? p.assists ?? 0, p.matchesPlayed || 0,
     p.fitnessScore || 0, p.status || 'Active',
     new Date().toISOString()
   ]);

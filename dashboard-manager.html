@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>CoachHub — Manager Portal</title>
-<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/style.css?v=2"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 </head>
@@ -21,8 +21,8 @@
     <button class="nav-item" onclick="showPage('matches',this)"><span class="icon">⚽</span>Matches</button>
     <button class="nav-item" onclick="showPage('leaderboard',this)"><span class="icon">🏆</span>Leaderboard</button>
     <button class="nav-item" onclick="showPage('attendance',this)"><span class="icon">📅</span>Attendance</button>
-    <button class="nav-item" onclick="showPage('sql',this)"><span class="icon">ðŸ—„ï¸</span>SQL Explorer</button>
-    <button class="nav-item" onclick="showPage('announcements',this)"><span class="icon">ðŸ“¢</span>Announcements</button>
+    <button class="nav-item" onclick="showPage('sql',this)"><span class="icon">💾</span>SQL Explorer</button>
+    <button class="nav-item" onclick="showPage('announcements',this)"><span class="icon">📢</span>Announcements</button>
     <button class="nav-item" onclick="showPage('profile',this)"><span class="icon">👤</span>My Profile</button>
   </nav>
   <div class="sidebar-bottom">
@@ -40,19 +40,28 @@
     <div class="topbar-right">
       <div class="date-badge" id="today-date"></div>
       <div style="position:relative">
-        <div class="notif-bell" id="notif-bell" onclick="toggleNotif()">🔧”<span class="notif-count hidden" id="notif-count">0</span></div>
+        <div class="notif-bell" id="notif-bell" onclick="toggleNotif()">🔔<span class="notif-count hidden" id="notif-count">0</span></div>
         <div class="notif-dropdown" id="notif-dropdown">
           <div class="notif-header"><h4>Notifications</h4><button onclick="markAllRead()" style="font-size:.72rem;color:var(--blue);background:none;border:none;cursor:pointer">Mark all read</button></div>
           <div id="notif-list"><div class="notif-empty">No notifications</div></div>
         </div>
       </div>
-      <button class="btn-pdf" onclick="exportFullReport()">ðŸ“„ Export Report</button>
+      <button class="btn-pdf" onclick="exportFullReport()">📄 Export Report</button>
       <span class="role-badge role-manager">Manager</span>
+      <button class="topbar-logout-btn" onclick="handleLogout()">Logout</button>
     </div>
   </header>
 
   <!-- DASHBOARD -->
   <div class="page active" id="page-dashboard">
+    <div class="team-demo-banner">
+      <img src="assets/csk-logo.png" alt="Chennai Super Kings" class="team-demo-logo"/>
+      <div class="team-demo-info">
+        <span class="team-demo-eyebrow">Active Team · Demo</span>
+        <h3>Chennai Super Kings <span class="team-demo-code">CSK</span></h3>
+      </div>
+      <span class="badge badge-gold">Cricket · CSK2026</span>
+    </div>
     <div class="stat-row">
       <div class="stat-card sc-blue"><div class="stat-icon">👥</div><div class="stat-val" id="s-players">—</div><div class="stat-label">Total Players</div></div>
       <div class="stat-card sc-cyan"><div class="stat-icon">🧑‍💼</div><div class="stat-val" id="s-coaches">—</div><div class="stat-label">Coaches</div></div>
@@ -98,7 +107,7 @@
       </div>
     </div>
     <div class="table-wrap"><table>
-      <thead><tr><th>Name</th><th>Sport</th><th>Position</th><th>Jersey</th><th>Matches</th><th>Goals</th><th>Assists</th><th>Fitness</th><th>Status</th><th>Badges</th></tr></thead>
+      <thead><tr><th>Name</th><th>Sport</th><th>Position</th><th>Jersey</th><th>Matches</th><th id="mgr-pri-th">Goals / Runs</th><th id="mgr-sec-th">Assists / Wkts</th><th>Fitness</th><th>Status</th><th>Badges</th></tr></thead>
       <tbody id="mgr-players-tbody"></tbody>
     </table></div>
   </div>
@@ -130,7 +139,7 @@
   <div class="page" id="page-leaderboard">
     <div class="sec-header"><div class="sec-title">Overall Leaderboard</div></div>
     <div class="table-wrap"><table>
-      <thead><tr><th>Rank</th><th>Player</th><th>Sport</th><th>Matches</th><th>Goals</th><th>Assists</th><th>Fitness</th><th>Score</th></tr></thead>
+      <thead><tr><th>Rank</th><th>Player</th><th>Sport</th><th>Matches</th><th id="mgr-lb-pri-th">Goals / Runs</th><th id="mgr-lb-sec-th">Assists / Wkts</th><th>Fitness</th><th>Score</th></tr></thead>
       <tbody id="mgr-lb-tbody"></tbody>
     </table></div>
   </div>
@@ -141,9 +150,9 @@
     <div id="att-overview"><p class="text-muted">Loading attendance data...</p></div>
   </div>
 
-  <!-- ðŸ—„ï¸ SQL EXPLORER -->
+  <!-- 🗄️ SQL EXPLORER -->
   <div class="page" id="page-sql">
-    <div class="sec-header"><div class="sec-title">SQL Query Explorer</div><button class="btn-pdf" onclick="window.sqlDemo&&window.sqlDemo.exportFile()">ðŸ’¾ Download .sqlite</button></div>
+    <div class="sec-header"><div class="sec-title">SQL Query Explorer</div><button class="btn-pdf" onclick="window.sqlDemo&&window.sqlDemo.exportFile()">💾 Download .sqlite</button></div>
     <p style="color:var(--muted);font-size:.82rem;margin-bottom:1.2rem">Run live SQL queries against the local SQLite mirror of your Firebase data. All data is read-only here.</p>
     <div class="sql-explorer">
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem">
@@ -158,7 +167,7 @@
       </div>
       <textarea id="sql-input" placeholder="SELECT * FROM users;" spellcheck="false"></textarea>
       <div style="display:flex;gap:.8rem;margin-top:.8rem;align-items:center">
-        <button class="btn btn-primary btn-sm" onclick="runSQL()">â–¶ Run Query</button>
+        <button class="btn btn-primary btn-sm" onclick="runSQL()">▶ Run Query</button>
         <button class="btn btn-ghost btn-sm" onclick="document.getElementById('sql-input').value='';document.getElementById('sql-results').innerHTML=''">Clear</button>
         <span id="sql-row-count" style="font-size:.78rem;color:var(--muted)"></span>
       </div>
@@ -191,10 +200,13 @@
 </main>
 
 <script type="module">
-import { requireAuth } from './js/auth.js';
+import { requireAuth, logoutUser } from './js/auth.js';
 import { getAllPlayers, getAllCoaches, getAllMatches, getAnnouncements,
          getLeaderboard, getUser, updateUser, fmtDate, fmtDateTime,
-         getAttendanceSessions } from './js/db.js';
+         getAttendanceSessions,
+         getSportStatLabels, getPlayerPrimaryStat, getPlayerSecondaryStat,
+         getTableStatHeaders, getPlayerImpactScore, getPlayerBadges,
+         ensureCricketSquad, getStatusBadgeClass } from './js/db.js';
 import { initSQL, sqlQuery } from './js/sql-layer.js';
 
 let me=null, allPlayers=[], allCoaches=[], allMatches=[], allAnn=[];
@@ -203,7 +215,7 @@ const BADGE_DEFS=[
   {id:'goals5',icon:'🎯',label:'5 Goals',check:p=>(p.goals||0)>=5},
   {id:'goals10',icon:'⚽',label:'10 Goals',check:p=>(p.goals||0)>=10},
   {id:'assists5',icon:'🤝',label:'5 Assists',check:p=>(p.assists||0)>=5},
-  {id:'matches10',icon:'ðŸƒ',label:'10 Matches',check:p=>(p.matchesPlayed||0)>=10},
+  {id:'matches10',icon:'🏃',label:'10 Matches',check:p=>(p.matchesPlayed||0)>=10},
   {id:'fitness90',icon:'💪',label:'Peak Fitness',check:p=>(p.fitnessScore||0)>=90},
   {id:'allround',icon:'⭐',label:'All-Rounder',check:p=>((p.goals||0)+(p.assists||0))>=10},
 ];
@@ -220,6 +232,7 @@ requireAuth(['manager']).then(async user=>{
 
 async function loadAll(){
   allPlayers=await getAllPlayers();
+  if(await ensureCricketSquad(allPlayers)) allPlayers=await getAllPlayers();
   allCoaches=await getAllCoaches();
   allMatches=await getAllMatches();
   allAnn=await getAnnouncements();
@@ -234,15 +247,15 @@ async function loadAll(){
   buildNotifications();
 }
 
-// â”€â”€ 🌙 THEME â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── 🌙 THEME ─────────────────────────────────────────────
 function initTheme(){const s=localStorage.getItem('ch_theme');if(s==='light')applyTheme('light');}
-function applyTheme(m){document.body.classList.toggle('light-mode',m==='light');document.getElementById('theme-toggle').textContent=m==='light'?'â˜€ï¸':'🌙';localStorage.setItem('ch_theme',m);}
+function applyTheme(m){document.body.classList.toggle('light-mode',m==='light');document.getElementById('theme-toggle').textContent=m==='light'?'☀️':'🌙';localStorage.setItem('ch_theme',m);}
 document.getElementById('theme-toggle').addEventListener('click',()=>{applyTheme(document.body.classList.contains('light-mode')?'dark':'light');});
 
-// â”€â”€ 🔧” NOTIFICATIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── 🔔 NOTIFICATIONS ────────────────────────────────────
 function buildNotifications(){
   const items=[];
-  allAnn.filter(a=>a.priority==='urgent').forEach(a=>items.push({icon:'ðŸš¨',text:a.title,sub:'Urgent announcement'}));
+  allAnn.filter(a=>a.priority==='urgent').forEach(a=>items.push({icon:'🚨',text:a.title,sub:'Urgent announcement'}));
   allPlayers.filter(p=>p.status==='Injured').forEach(p=>items.push({icon:'🏥',text:`${p.name} is Injured`,sub:'Player alert'}));
   allMatches.filter(m=>m.status==='upcoming').slice(0,2).forEach(m=>items.push({icon:'⚽',text:`Match vs ${m.opponent}`,sub:fmtDate(m.date)}));
   const c=document.getElementById('notif-count');
@@ -253,7 +266,7 @@ window.toggleNotif=()=>document.getElementById('notif-dropdown').classList.toggl
 window.markAllRead=()=>{document.getElementById('notif-count').classList.add('hidden');document.querySelectorAll('.notif-item').forEach(el=>el.classList.remove('unread'));document.getElementById('notif-dropdown').classList.remove('open');};
 document.addEventListener('click',e=>{if(!e.target.closest('#notif-bell')&&!e.target.closest('#notif-dropdown'))document.getElementById('notif-dropdown').classList.remove('open');});
 
-// â”€â”€ DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── DASHBOARD ────────────────────────────────────────────
 function renderDashboard(){
   document.getElementById('s-players').textContent=allPlayers.length;
   document.getElementById('s-coaches').textContent=allCoaches.length;
@@ -268,49 +281,69 @@ function renderDashboard(){
   const losses=comp.filter(m=>m.scoreUs<m.scoreThem).length;
   const draws=comp.filter(m=>m.scoreUs===m.scoreThem).length;
   document.getElementById('match-summary').innerHTML=`<div style="display:flex;gap:1.5rem;text-align:center">${[['Wins',wins,'var(--green)'],['Losses',losses,'var(--red)'],['Draws',draws,'var(--muted)'],['Upcoming',allMatches.filter(m=>m.status==='upcoming').length,'var(--blue)']].map(([l,v,c])=>`<div><div style="font-family:Rajdhani,sans-serif;font-size:2.5rem;font-weight:700;color:${c}">${v}</div><div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">${l}</div></div>`).join('')}</div>`;
-  const sorted=[...allPlayers].sort((a,b)=>((b.goals||0)+(b.assists||0))-((a.goals||0)+(a.assists||0))).slice(0,5);
-  const medals=['ðŸ¥‡','ðŸ¥ˆ','ðŸ¥‰'];
-  document.getElementById('top5-tbody').innerHTML=sorted.map((p,i)=>`<tr><td>${i<3?medals[i]:i+1}</td><td><strong>${p.name}</strong></td><td>${p.sport}</td><td><strong style="color:var(--cyan)">${(p.goals||0)+(p.assists||0)}</strong></td></tr>`).join('')||`<tr><td colspan="4" style="color:var(--muted);text-align:center">No player data</td></tr>`;
+  const sorted=[...allPlayers].sort((a,b)=>getPlayerImpactScore(b)-getPlayerImpactScore(a)).slice(0,5);
+  const medals=['🥇','🥈','🥉'];
+  document.getElementById('top5-tbody').innerHTML=sorted.map((p,i)=>`<tr><td>${i<3?medals[i]:i+1}</td><td><strong>${p.name}</strong></td><td>${p.sport}</td><td><strong style="color:var(--cyan)">${getPlayerImpactScore(p)}</strong></td></tr>`).join('')||`<tr><td colspan="4" style="color:var(--muted);text-align:center">No player data</td></tr>`;
   document.getElementById('mgr-ann-list').innerHTML=allAnn.slice(0,3).map(a=>`<div class="card-box" style="margin-bottom:.8rem"><strong style="color:var(--white);font-size:.9rem">${a.title}</strong><p style="font-size:.8rem;color:var(--muted);margin-top:.3rem">${(a.body||'').substring(0,80)}${(a.body||'').length>80?'...':''}</p></div>`).join('')||`<p class="text-muted">No announcements</p>`;
 }
 
-// â”€â”€ PLAYERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── PLAYERS ──────────────────────────────────────────────
 function renderPlayers(list){
+  const hdr=getTableStatHeaders(list);
+  const priTh=document.getElementById('mgr-pri-th');
+  const secTh=document.getElementById('mgr-sec-th');
+  if(priTh)priTh.textContent=hdr.primary;
+  if(secTh)secTh.textContent=hdr.secondary;
   const tbody=document.getElementById('mgr-players-tbody');
   if(!list.length){tbody.innerHTML=`<tr><td colspan="10" style="color:var(--muted);text-align:center;padding:2rem">No players registered</td></tr>`;return;}
   tbody.innerHTML=list.map(p=>{
-    const badges=BADGE_DEFS.filter(b=>b.check(p)).slice(0,3).map(b=>`<span title="${b.label}">${b.icon}</span>`).join(' ');
-    return `<tr><td><strong>${p.name}</strong></td><td>${p.sport}</td><td>${p.position||'—'}</td><td>${p.jerseyNumber||'—'}</td><td>${p.matchesPlayed||0}</td><td>${p.goals||0}</td><td>${p.assists||0}</td><td>${p.fitnessScore||0}%</td><td><span class="badge ${p.status==='Active'?'badge-green':p.status==='Injured'?'badge-red':'badge-orange'}">${p.status||'Active'}</span></td><td>${badges||'—'}</td></tr>`;
+    const m=getSportStatLabels(p.sport);
+    const priVal=getPlayerPrimaryStat(p);
+    const secVal=getPlayerSecondaryStat(p);
+    const priText=hdr.singleSport?priVal:`${priVal} <small style="color:var(--muted)">${m.primaryShort}</small>`;
+    const secText=hdr.singleSport?secVal:`${secVal} <small style="color:var(--muted)">${m.secondaryShort}</small>`;
+    const badges=getPlayerBadges(p).slice(0,3).map(b=>`<span title="${b.label}">${b.icon}</span>`).join(' ');
+    return `<tr><td><strong>${p.name}</strong></td><td>${p.sport}</td><td>${p.position||'—'}</td><td>${p.jerseyNumber||'—'}</td><td>${p.matchesPlayed||0}</td><td>${priText}</td><td>${secText}</td><td>${p.fitnessScore||0}%</td><td><span class="badge ${getStatusBadgeClass(p.status)}">${p.status||'Active'}</span></td><td>${badges||'—'}</td></tr>`;
   }).join('');
 }
 window.searchPlayers=(q)=>renderPlayers(allPlayers.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())));
 window.filterBySport=(s)=>renderPlayers(s?allPlayers.filter(p=>p.sport===s):allPlayers);
 
-// â”€â”€ COACHES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── COACHES ──────────────────────────────────────────────
 function renderCoaches(){
   const tbody=document.getElementById('coaches-tbody');
   if(!allCoaches.length){tbody.innerHTML=`<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:2rem">No coaches registered</td></tr>`;return;}
   tbody.innerHTML=allCoaches.map(c=>`<tr><td><strong>${c.name}</strong></td><td>${c.email}</td><td>${c.sport||c.specialization||'—'}</td><td>${c.experience||'—'} yrs</td><td><code style="color:var(--cyan)">${c.teamCode||'—'}</code></td></tr>`).join('');
 }
 
-// â”€â”€ MATCHES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── MATCHES ──────────────────────────────────────────────
 function renderMatches(list){
   const tbody=document.getElementById('mgr-matches-tbody');
   if(!list.length){tbody.innerHTML=`<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:2rem">No matches</td></tr>`;return;}
-  tbody.innerHTML=list.map(m=>{const result=m.status==='completed'?(m.scoreUs>m.scoreThem?'<span class="badge badge-green">WIN</span>':m.scoreUs<m.scoreThem?'<span class="badge badge-red">LOSS</span>':'<span class="badge badge-muted">DRAW</span>'):'—';return `<tr><td>${fmtDate(m.date)}</td><td><strong>${m.opponent}</strong></td><td>${m.venue}</td><td>${m.sport}</td><td><span class="badge badge-blue">${m.type}</span></td><td>${m.status==='completed'?`${m.scoreUs||0} â€“ ${m.scoreThem||0}`:'—'}</td><td>${result}</td></tr>`;}).join('');
+  tbody.innerHTML=list.map(m=>{const result=m.status==='completed'?(m.scoreUs>m.scoreThem?'<span class="badge badge-green">WIN</span>':m.scoreUs<m.scoreThem?'<span class="badge badge-red">LOSS</span>':'<span class="badge badge-muted">DRAW</span>'):'—';return `<tr><td>${fmtDate(m.date)}</td><td><strong>${m.opponent}</strong></td><td>${m.venue}</td><td>${m.sport}</td><td><span class="badge badge-blue">${m.type}</span></td><td>${m.status==='completed'?`${m.scoreUs||0} – ${m.scoreThem||0}`:'—'}</td><td>${result}</td></tr>`;}).join('');
 }
 window.filterMatches=(f,btn)=>{btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderMatches(f==='all'?allMatches:allMatches.filter(m=>m.status===f));};
 
-// â”€â”€ LEADERBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── LEADERBOARD ──────────────────────────────────────────
 function renderLeaderboard(){
-  const sorted=[...allPlayers].sort((a,b)=>((b.goals||0)+(b.assists||0))-((a.goals||0)+(a.assists||0)));
-  const medals=['ðŸ¥‡','ðŸ¥ˆ','ðŸ¥‰'];
+  const sorted=[...allPlayers].sort((a,b)=>getPlayerImpactScore(b)-getPlayerImpactScore(a));
+  const hdr=getTableStatHeaders(sorted);
+  const priTh=document.getElementById('mgr-lb-pri-th');
+  const secTh=document.getElementById('mgr-lb-sec-th');
+  if(priTh)priTh.textContent=hdr.primary;
+  if(secTh)secTh.textContent=hdr.secondary;
+  const medals=['🥇','🥈','🥉'];
   const tbody=document.getElementById('mgr-lb-tbody');
   if(!sorted.length){tbody.innerHTML=`<tr><td colspan="8" style="color:var(--muted);text-align:center;padding:2rem">No player data</td></tr>`;return;}
-  tbody.innerHTML=sorted.map((p,i)=>`<tr><td><strong>${i<3?medals[i]:i+1}</strong></td><td><strong>${p.name}</strong></td><td>${p.sport}</td><td>${p.matchesPlayed||0}</td><td>${p.goals||0}</td><td>${p.assists||0}</td><td>${p.fitnessScore||0}%</td><td><strong style="color:var(--cyan)">${(p.goals||0)+(p.assists||0)}</strong></td></tr>`).join('');
+  tbody.innerHTML=sorted.map((p,i)=>{
+    const m=getSportStatLabels(p.sport);
+    const priText=hdr.singleSport?getPlayerPrimaryStat(p):`${getPlayerPrimaryStat(p)} <small style="color:var(--muted)">${m.primaryShort}</small>`;
+    const secText=hdr.singleSport?getPlayerSecondaryStat(p):`${getPlayerSecondaryStat(p)} <small style="color:var(--muted)">${m.secondaryShort}</small>`;
+    return `<tr><td><strong>${i<3?medals[i]:i+1}</strong></td><td><strong>${p.name}</strong></td><td>${p.sport}</td><td>${p.matchesPlayed||0}</td><td>${priText}</td><td>${secText}</td><td>${p.fitnessScore||0}%</td><td><strong style="color:var(--cyan)">${getPlayerImpactScore(p)}</strong></td></tr>`;
+  }).join('');
 }
 
-// â”€â”€ 📅 ATTENDANCE OVERVIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── 📅 ATTENDANCE OVERVIEW ───────────────────────────────
 async function loadAttendanceOverview(){
   const sessions=await getAttendanceSessions();
   const el=document.getElementById('att-overview');
@@ -324,10 +357,10 @@ async function loadAttendanceOverview(){
     }).join('')}
   </div>
   <div class="sec-header"><div class="sec-title">Session History</div></div>
-  ${sessions.map(s=>{const total=Object.keys(s.records||{}).length;const present=Object.values(s.records||{}).filter(v=>v==='present').length;return `<div class="card-box" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center"><div><strong style="color:var(--white)">${s.sessionName}</strong><div style="font-size:.75rem;color:var(--muted)">${fmtDate(s.date)} Â· ${present}/${total} present</div></div><span class="badge ${present/total>0.7?'badge-green':'badge-orange'}">${Math.round((present||0)/(total||1)*100)}%</span></div>`;}).join('')}`;
+  ${sessions.map(s=>{const total=Object.keys(s.records||{}).length;const present=Object.values(s.records||{}).filter(v=>v==='present').length;return `<div class="card-box" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center"><div><strong style="color:var(--white)">${s.sessionName}</strong><div style="font-size:.75rem;color:var(--muted)">${fmtDate(s.date)} · ${present}/${total} present</div></div><span class="badge ${present/total>0.7?'badge-green':'badge-orange'}">${Math.round((present||0)/(total||1)*100)}%</span></div>`;}).join('')}`;
 }
 
-// â”€â”€ ðŸ—„ï¸ SQL EXPLORER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── 🗄️ SQL EXPLORER ─────────────────────────────────────
 window.setQuery=(q)=>{document.getElementById('sql-input').value=q;runSQL();};
 window.runSQL=()=>{
   const sql=document.getElementById('sql-input').value.trim();
@@ -342,7 +375,7 @@ window.runSQL=()=>{
   }catch(e){document.getElementById('sql-results').innerHTML=`<p style="padding:1rem;color:var(--red);font-size:.82rem">Error: ${e.message}</p>`;document.getElementById('sql-row-count').textContent='';}
 };
 
-// â”€â”€ ðŸ“„ PDF REPORT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── 📄 PDF REPORT ────────────────────────────────────────
 window.exportFullReport=async()=>{
   const {jsPDF}=window.jspdf;
   const pdf=new jsPDF();
@@ -357,13 +390,13 @@ window.exportFullReport=async()=>{
   pdf.text(`Total Players: ${allPlayers.length}   Coaches: ${allCoaches.length}   Matches: ${allMatches.length}   Wins: ${allMatches.filter(m=>m.status==='completed'&&m.scoreUs>m.scoreThem).length}`,15,52);
   pdf.setTextColor(255,214,0); pdf.setFontSize(13); pdf.setFont('helvetica','bold');
   pdf.text('Top 10 Players',15,64);
-  const sorted=[...allPlayers].sort((a,b)=>((b.goals||0)+(b.assists||0))-((a.goals||0)+(a.assists||0))).slice(0,10);
+  const sorted=[...allPlayers].sort((a,b)=>getPlayerImpactScore(b)-getPlayerImpactScore(a)).slice(0,10);
   let y=74;
   pdf.setFont('helvetica','normal'); pdf.setFontSize(10);
   sorted.forEach((p,i)=>{
     pdf.setTextColor(85,106,138); pdf.text(`${i+1}.`,15,y);
     pdf.setTextColor(220,230,245); pdf.text(p.name,22,y);
-    pdf.setTextColor(0,229,255); pdf.text(`${p.sport} | G:${p.goals||0} A:${p.assists||0} F:${p.fitnessScore||0}%`,80,y);
+    pdf.setTextColor(0,229,255); const m=getSportStatLabels(p.sport); pdf.text(`${p.sport} | ${m.primaryShort}:${getPlayerPrimaryStat(p)} ${m.secondaryShort}:${getPlayerSecondaryStat(p)} F:${p.fitnessScore||0}%`,80,y);
     y+=8;
   });
   pdf.setDrawColor(28,40,64); pdf.line(15,y+2,195,y+2); y+=12;
@@ -383,24 +416,25 @@ window.exportFullReport=async()=>{
   pdf.save('CoachHub_Team_Report.pdf');
 };
 
-// â”€â”€ 📊 CSV EXPORT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── 📊 CSV EXPORT ────────────────────────────────────────
 window.exportPlayersCSV=()=>{
-  const headers=['Name','Sport','Position','Jersey','Matches','Goals','Assists','Fitness%','Status'];
-  const rows=allPlayers.map(p=>[p.name,p.sport,p.position||'',p.jerseyNumber||'',p.matchesPlayed||0,p.goals||0,p.assists||0,p.fitnessScore||0,p.status||'Active']);
+  const hdr=getTableStatHeaders(allPlayers);
+  const headers=['Name','Sport','Position','Jersey','Matches',hdr.primary,hdr.secondary,'Fitness%','Status'];
+  const rows=allPlayers.map(p=>[p.name,p.sport,p.position||'',p.jerseyNumber||'',p.matchesPlayed||0,getPlayerPrimaryStat(p),getPlayerSecondaryStat(p),p.fitnessScore||0,p.status||'Active']);
   const csv=[headers,...rows].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
   const blob=new Blob([csv],{type:'text/csv'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='players_report.csv';a.click();
 };
 
-// â”€â”€ ANNOUNCEMENTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── ANNOUNCEMENTS ────────────────────────────────────────
 function renderAnn(){
   const colors={normal:'var(--blue)',important:'var(--gold)',urgent:'var(--red)'};
   const el=document.getElementById('mgr-full-ann');
   if(!allAnn.length){el.innerHTML=`<p class="text-muted">No announcements yet.</p>`;return;}
-  el.innerHTML=allAnn.map(a=>`<div class="card-box" style="margin-bottom:1rem;display:flex;gap:1rem;align-items:flex-start"><div style="width:10px;height:10px;border-radius:50%;background:${colors[a.priority]||'var(--blue)'};flex-shrink:0;margin-top:5px"></div><div><strong style="color:var(--white)">${a.title}</strong><p style="font-size:.83rem;color:var(--muted);margin-top:.3rem;line-height:1.6">${a.body}</p><div style="font-size:.7rem;color:var(--muted);margin-top:.4rem">${fmtDateTime(a.createdAt)} Â· by ${a.postedBy||'Coach'}</div></div></div>`).join('');
+  el.innerHTML=allAnn.map(a=>`<div class="card-box" style="margin-bottom:1rem;display:flex;gap:1rem;align-items:flex-start"><div style="width:10px;height:10px;border-radius:50%;background:${colors[a.priority]||'var(--blue)'};flex-shrink:0;margin-top:5px"></div><div><strong style="color:var(--white)">${a.title}</strong><p style="font-size:.83rem;color:var(--muted);margin-top:.3rem;line-height:1.6">${a.body}</p><div style="font-size:.7rem;color:var(--muted);margin-top:.4rem">${fmtDateTime(a.createdAt)} · by ${a.postedBy||'Coach'}</div></div></div>`).join('');
 }
 
-// â”€â”€ PROFILE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── PROFILE ──────────────────────────────────────────────
 function loadProfile(){
   document.getElementById('p-name-display').textContent=me.name;
   document.getElementById('p-avatar').textContent=me.name[0].toUpperCase();
@@ -409,7 +443,7 @@ function loadProfile(){
 }
 window.saveProfile=async()=>{await updateUser(me.uid,{name:document.getElementById('mp-name').value,department:document.getElementById('mp-dept').value});const s=document.getElementById('mp-success');s.textContent='✅ Saved!';s.classList.add('show');setTimeout(()=>s.classList.remove('show'),3000);};
 
-// â”€â”€ HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── HELPERS ──────────────────────────────────────────────
 window.showPage=(id,btn)=>{
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -418,7 +452,7 @@ window.showPage=(id,btn)=>{
   document.getElementById('page-title').textContent=titles[id]||id;
   if(btn)btn.classList.add('active');
 };
-window.handleLogout=()=>{import('./auth.js').then(m=>m.logoutUser());};
+window.handleLogout=()=>logoutUser();
 </script>
 </body>
 </html>

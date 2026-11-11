@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>CoachHub — Coach Portal</title>
-<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/style.css?v=2"/>
 </head>
 <body style="display:flex">
 
@@ -25,7 +25,7 @@
     <button class="nav-item" onclick="showPage('leaderboard',this)"><span class="icon">🏆</span>Leaderboard</button>
     <button class="nav-item" onclick="showPage('training',this)"><span class="icon">💪</span>Training Plans</button>
     <button class="nav-item" onclick="showPage('chat',this)"><span class="icon">💬</span>Team Chat</button>
-    <button class="nav-item" onclick="showPage('announcements',this)"><span class="icon">ðŸ“¢</span>Announcements</button>
+    <button class="nav-item" onclick="showPage('announcements',this)"><span class="icon">📢</span>Announcements</button>
     <button class="nav-item" onclick="showPage('profile',this)"><span class="icon">👤</span>My Profile</button>
   </nav>
   <div class="sidebar-bottom">
@@ -46,10 +46,10 @@
     <h2 id="page-title">Dashboard</h2>
     <div class="topbar-right">
       <div class="date-badge" id="today-date"></div>
-      <!-- 🔧” Notification Bell -->
+      <!-- 🔔 Notification Bell -->
       <div style="position:relative">
         <div class="notif-bell" id="notif-bell" onclick="toggleNotif()">
-          🔧” <span class="notif-count hidden" id="notif-count">0</span>
+          🔔 <span class="notif-count hidden" id="notif-count">0</span>
         </div>
         <div class="notif-dropdown" id="notif-dropdown">
           <div class="notif-header">
@@ -60,22 +60,31 @@
         </div>
       </div>
       <span class="role-badge role-coach">Coach</span>
+      <button class="topbar-logout-btn" onclick="handleLogout()">Logout</button>
     </div>
   </header>
 
   <!-- DASHBOARD -->
   <div class="page active" id="page-dashboard">
+    <div class="team-demo-banner">
+      <img src="assets/csk-logo.png" alt="Chennai Super Kings" class="team-demo-logo"/>
+      <div class="team-demo-info">
+        <span class="team-demo-eyebrow">Active Team · Demo</span>
+        <h3>Chennai Super Kings <span class="team-demo-code">CSK</span></h3>
+      </div>
+      <span class="badge badge-gold">Cricket · CSK2026</span>
+    </div>
     <div class="stat-row">
       <div class="stat-card sc-blue"><div class="stat-icon">👥</div><div class="stat-val" id="s-players">—</div><div class="stat-label">Total Players</div></div>
       <div class="stat-card sc-cyan"><div class="stat-icon">⚽</div><div class="stat-val" id="s-matches">—</div><div class="stat-label">Matches Scheduled</div></div>
       <div class="stat-card sc-gold"><div class="stat-icon">🏆</div><div class="stat-val" id="s-wins">—</div><div class="stat-label">Wins</div></div>
-      <div class="stat-card sc-green"><div class="stat-icon">ðŸ“¢</div><div class="stat-val" id="s-ann">—</div><div class="stat-label">Announcements</div></div>
+      <div class="stat-card sc-green"><div class="stat-icon">📢</div><div class="stat-val" id="s-ann">—</div><div class="stat-label">Announcements</div></div>
     </div>
     <div class="two-col">
       <div>
         <div class="sec-header"><div class="sec-title">Recent Players</div><button class="sec-action" onclick="showPage('players',null)">View All</button></div>
         <div class="table-wrap"><table>
-          <thead><tr><th>Name</th><th>Sport</th><th>Goals</th><th>Status</th></tr></thead>
+          <thead><tr><th>Name</th><th>Sport</th><th id="dash-stat-th">Runs / Goals</th><th>Status</th></tr></thead>
           <tbody id="dash-players-tbody"><tr><td colspan="4" style="color:var(--muted);text-align:center">Loading...</td></tr></tbody>
         </table></div>
       </div>
@@ -91,14 +100,18 @@
   <!-- PLAYERS -->
   <div class="page" id="page-players">
     <div class="sec-header">
-      <div class="sec-title">Player Management</div>
-      <div style="display:flex;gap:.8rem;align-items:center">
+      <div>
+        <div class="sec-title">Player Management</div>
+        <div id="squad-summary" style="font-size:.78rem;color:var(--muted);margin-top:.25rem">Loading squad...</div>
+      </div>
+      <div style="display:flex;gap:.8rem;align-items:center;flex-wrap:wrap">
         <div class="search-bar"><span>🔍</span><input type="text" placeholder="Search players..." oninput="searchPlayers(this.value)"/></div>
+        <button class="btn btn-ghost btn-sm" onclick="openNewPlayerModal()">+ Add Player</button>
         <button class="btn btn-primary btn-sm" onclick="openPlayerModal()">+ Update Stats</button>
       </div>
     </div>
     <div class="table-wrap"><table>
-      <thead><tr><th>Name</th><th>Sport</th><th>Position</th><th>#</th><th>Matches</th><th>Goals</th><th>Assists</th><th>Fitness</th><th>Status</th><th>Badges</th><th>Actions</th></tr></thead>
+      <thead><tr><th>Name</th><th>Sport</th><th>Position</th><th>#</th><th>Matches</th><th id="players-pri-th">Runs / Goals</th><th id="players-sec-th">Wickets / Assists</th><th>Fitness</th><th>Status</th><th>Badges</th><th>Actions</th></tr></thead>
       <tbody id="players-tbody"><tr><td colspan="11" style="color:var(--muted);text-align:center;padding:2rem">Loading players...</td></tr></tbody>
     </table></div>
   </div>
@@ -154,7 +167,7 @@
   <div class="page" id="page-leaderboard">
     <div class="sec-header"><div class="sec-title">Player Leaderboard</div></div>
     <div class="table-wrap"><table>
-      <thead><tr><th>Rank</th><th>Player</th><th>Sport</th><th>Matches</th><th>Goals</th><th>Assists</th><th>Fitness %</th><th>Score</th></tr></thead>
+      <thead><tr><th>Rank</th><th>Player</th><th>Sport</th><th>Matches</th><th id="lb-pri-th">Runs / Goals</th><th id="lb-sec-th">Wickets / Assists</th><th>Fitness %</th><th>Score</th></tr></thead>
       <tbody id="lb-tbody"><tr><td colspan="8" style="color:var(--muted);text-align:center;padding:2rem">Loading...</td></tr></tbody>
     </table></div>
   </div>
@@ -179,7 +192,7 @@
       </div>
       <div class="chat-input-row">
         <input type="text" id="chat-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()"/>
-        <button class="chat-send-btn" onclick="sendChat()">âž¤</button>
+        <button class="chat-send-btn" onclick="sendChat()">➤</button>
       </div>
     </div>
   </div>
@@ -219,30 +232,38 @@
 <!-- MODALS -->
 <div class="modal-overlay" id="player-modal">
   <div class="modal">
-    <div class="modal-header"><h3 id="player-modal-title">Update Player Stats</h3><button class="modal-close" onclick="closeModal('player-modal')">âœ•</button></div>
+    <div class="modal-header"><h3 id="player-modal-title">Update Player Stats</h3><button class="modal-close" onclick="closeModal('player-modal')">✕</button></div>
     <input type="hidden" id="pm-uid"/>
-    <div class="form-group"><label>Select Player</label>
+    <div class="form-group" id="pm-select-wrap"><label>Select Player</label>
       <select id="pm-player-select" onchange="fillPlayerData()"><option value="">— Choose —</option></select>
     </div>
+    <div id="pm-new-fields" style="display:none;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem">
+      <div class="form-group" style="margin:0"><label>Player Name</label><input type="text" id="pm-new-name" placeholder="e.g. Virat K"/></div>
+      <div class="form-group" style="margin:0"><label>Sport</label>
+        <select id="pm-new-sport" onchange="updateModalSportLabels(this.value)">
+          <option>Cricket</option><option>Football</option><option>Basketball</option><option>Volleyball</option><option>Athletics</option><option>Kabaddi</option>
+        </select>
+      </div>
+    </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
-      <div class="form-group"><label>Position</label><input type="text" id="pm-position" placeholder="Forward"/></div>
-      <div class="form-group"><label>Jersey #</label><input type="number" id="pm-jersey" placeholder="10"/></div>
+      <div class="form-group"><label>Position</label><input type="text" id="pm-position" placeholder="Batsman / Bowler / All-Rounder"/></div>
+      <div class="form-group"><label>Jersey #</label><input type="number" id="pm-jersey" placeholder="18"/></div>
       <div class="form-group"><label>Matches Played</label><input type="number" id="pm-matches" placeholder="0"/></div>
-      <div class="form-group"><label>Goals</label><input type="number" id="pm-goals" placeholder="0"/></div>
-      <div class="form-group"><label>Assists</label><input type="number" id="pm-assists" placeholder="0"/></div>
+      <div class="form-group"><label id="pm-pri-label">Runs</label><input type="number" id="pm-goals" placeholder="0"/></div>
+      <div class="form-group"><label id="pm-sec-label">Wickets</label><input type="number" id="pm-assists" placeholder="0"/></div>
       <div class="form-group"><label>Fitness Score %</label><input type="number" id="pm-fitness" placeholder="85" min="0" max="100"/></div>
     </div>
     <div class="form-group"><label>Status</label>
-      <select id="pm-status"><option>Active</option><option>Injured</option><option>Suspended</option><option>Resting</option></select>
+      <select id="pm-status"><option>Active</option><option>Substitute</option><option>Injured</option><option>Suspended</option><option>Resting</option></select>
     </div>
-    <button class="btn btn-primary" style="width:100%" onclick="savePlayerStats()">Save Stats</button>
+    <button class="btn btn-primary" style="width:100%" onclick="savePlayerStats()">Save Player</button>
     <div class="alert alert-success" id="pm-success" style="margin-top:1rem"></div>
   </div>
 </div>
 
 <div class="modal-overlay" id="match-modal">
   <div class="modal">
-    <div class="modal-header"><h3 id="match-modal-title">Add Match</h3><button class="modal-close" onclick="closeModal('match-modal')">âœ•</button></div>
+    <div class="modal-header"><h3 id="match-modal-title">Add Match</h3><button class="modal-close" onclick="closeModal('match-modal')">✕</button></div>
     <input type="hidden" id="mm-id"/>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
       <div class="form-group"><label>Date</label><input type="date" id="mm-date"/></div>
@@ -272,7 +293,7 @@
 
 <div class="modal-overlay" id="training-modal">
   <div class="modal">
-    <div class="modal-header"><h3>Add Training Plan</h3><button class="modal-close" onclick="closeModal('training-modal')">âœ•</button></div>
+    <div class="modal-header"><h3>Add Training Plan</h3><button class="modal-close" onclick="closeModal('training-modal')">✕</button></div>
     <div class="form-group"><label>Title</label><input type="text" id="tr-title" placeholder="Sprint Interval Training"/></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
       <div class="form-group"><label>Category</label>
@@ -289,7 +310,7 @@
 
 <div class="modal-overlay" id="ann-modal">
   <div class="modal">
-    <div class="modal-header"><h3>Post Announcement</h3><button class="modal-close" onclick="closeModal('ann-modal')">âœ•</button></div>
+    <div class="modal-header"><h3>Post Announcement</h3><button class="modal-close" onclick="closeModal('ann-modal')">✕</button></div>
     <div class="form-group"><label>Title</label><input type="text" id="an-title" placeholder="Training rescheduled"/></div>
     <div class="form-group"><label>Message</label><textarea id="an-body" rows="4" style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:.75rem 1rem;color:var(--text);font-family:'Sora',sans-serif;outline:none;resize:vertical" placeholder="Write your announcement..."></textarea></div>
     <div class="form-group"><label>Priority</label>
@@ -307,7 +328,10 @@ import { getAllPlayers, getAllMatches, getAnnouncements, getLeaderboard,
          addAnnouncement, deleteAnnouncement, addTrainingPlan, deleteTrainingPlan,
          updateUser, getUser, fmtDate, fmtDateTime,
          addAttendanceSession, getAttendanceSessions, deleteAttendanceSession,
-         sendChatMessage, getChatMessages } from './js/db.js';
+         sendChatMessage, getChatMessages,
+         getSportStatLabels, getPlayerPrimaryStat, getPlayerSecondaryStat,
+         getTableStatHeaders, getPlayerImpactScore, getPlayerBadges,
+         addPlayerRecord, ensureCricketSquad, getStatusBadgeClass } from './js/db.js';
 import { db } from './js/firebase-config.js';
 import { collection, onSnapshot, orderBy, query }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -319,7 +343,7 @@ let attRecords = {}; // uid -> 'present'|'absent'
 let unreadCount = 0;
 let notifItems = [];
 
-// â”€â”€ INIT â”€â”€
+// ── INIT ──
 requireAuth(['coach']).then(async user => {
   currentUser = user;
   document.getElementById('coach-name').textContent = user.name;
@@ -332,6 +356,9 @@ requireAuth(['coach']).then(async user => {
 
 async function loadAll() {
   allPlayers  = await getAllPlayers();
+  if (await ensureCricketSquad(allPlayers)) {
+    allPlayers = await getAllPlayers();
+  }
   allMatches  = await getAllMatches();
   allAnn      = await getAnnouncements();
   allTraining = await getTrainingPlans();
@@ -347,14 +374,14 @@ async function loadAll() {
   buildNotifications();
 }
 
-// â”€â”€ 🌙 DARK/LIGHT MODE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── 🌙 DARK/LIGHT MODE ──────────────────────────────────
 function initTheme() {
   const saved = localStorage.getItem('ch_theme');
   if (saved === 'light') applyTheme('light');
 }
 function applyTheme(mode) {
   document.body.classList.toggle('light-mode', mode === 'light');
-  document.getElementById('theme-toggle').textContent = mode === 'light' ? 'â˜€ï¸' : '🌙';
+  document.getElementById('theme-toggle').textContent = mode === 'light' ? '☀️' : '🌙';
   localStorage.setItem('ch_theme', mode);
 }
 document.getElementById('theme-toggle').addEventListener('click', () => {
@@ -362,11 +389,11 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
   applyTheme(isLight ? 'dark' : 'light');
 });
 
-// â”€â”€ 🔧” NOTIFICATIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── 🔔 NOTIFICATIONS ─────────────────────────────────────
 function buildNotifications() {
   notifItems = [];
   const urgentAnn = allAnn.filter(a => a.priority === 'urgent');
-  urgentAnn.forEach(a => notifItems.push({ icon:'ðŸš¨', text: a.title, sub: 'Urgent announcement', id: a.id }));
+  urgentAnn.forEach(a => notifItems.push({ icon:'🚨', text: a.title, sub: 'Urgent announcement', id: a.id }));
   const injured = allPlayers.filter(p => p.status === 'Injured');
   injured.forEach(p => notifItems.push({ icon:'🏥', text: `${p.name} is Injured`, sub: 'Player status alert', id: p.id }));
   const upcoming = allMatches.filter(m => m.status === 'upcoming').slice(0, 2);
@@ -398,17 +425,24 @@ document.addEventListener('click', e => {
   }
 });
 
-// â”€â”€ DASHBOARD â”€â”€
+// ── DASHBOARD ──
 function renderDashboard() {
   document.getElementById('s-players').textContent = allPlayers.length;
   document.getElementById('s-matches').textContent = allMatches.length;
   document.getElementById('s-wins').textContent = allMatches.filter(m=>m.status==='completed'&&m.scoreUs>m.scoreThem).length;
   document.getElementById('s-ann').textContent = allAnn.length;
+  const topSlice = allPlayers.slice(0,5);
+  const dashHdr = getTableStatHeaders(topSlice);
+  const dashTh = document.getElementById('dash-stat-th');
+  if (dashTh) dashTh.textContent = dashHdr.primary;
   const tbody = document.getElementById('dash-players-tbody');
-  tbody.innerHTML = allPlayers.slice(0,5).map(p=>`
-    <tr><td>${p.name}</td><td>${p.sport}</td><td>${p.goals||0}</td>
-    <td><span class="badge ${p.status==='Active'?'badge-green':p.status==='Injured'?'badge-red':'badge-orange'}">${p.status||'Active'}</span></td></tr>
-  `).join('') || `<tr><td colspan="4" style="color:var(--muted);text-align:center">No players yet</td></tr>`;
+  tbody.innerHTML = topSlice.map(p=>{
+    const m = getSportStatLabels(p.sport);
+    const val = getPlayerPrimaryStat(p);
+    const cell = dashHdr.singleSport ? val : `${val} ${m.primaryShort}`;
+    return `<tr><td>${p.name}</td><td>${p.sport}</td><td>${cell}</td>
+    <td><span class="badge ${getStatusBadgeClass(p.status)}">${p.status||'Active'}</span></td></tr>`;
+  }).join('') || `<tr><td colspan="4" style="color:var(--muted);text-align:center">No players yet</td></tr>`;
   const upcoming = allMatches.filter(m=>m.status==='upcoming').slice(0,3);
   document.getElementById('dash-matches-list').innerHTML = upcoming.length ? upcoming.map(m=>`
     <div class="card-box" style="margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:center">
@@ -422,36 +456,44 @@ function renderDashboard() {
     </div>`).join('') || `<p class="text-muted">No announcements</p>`;
 }
 
-// â”€â”€ 🏅 ACHIEVEMENT BADGES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-function getPlayerBadges(p) {
-  const badges = [];
-  if ((p.goals||0) >= 10) badges.push({ icon:'⚽', label:'10 Goals', color:'var(--gold)' });
-  if ((p.goals||0) >= 5)  badges.push({ icon:'🎯', label:'5 Goals',  color:'var(--cyan)' });
-  if ((p.assists||0) >= 5) badges.push({ icon:'🤝', label:'5 Assists', color:'var(--green)' });
-  if ((p.matchesPlayed||0) >= 10) badges.push({ icon:'ðŸƒ', label:'10 Matches', color:'var(--blue)' });
-  if ((p.fitnessScore||0) >= 90) badges.push({ icon:'💪', label:'Peak Fitness', color:'#e040fb' });
-  if (p.status === 'Active' && (p.goals||0) > 0 && (p.matchesPlayed||0) > 0)
-    badges.push({ icon:'⭐', label:'Active Star', color:'var(--gold)' });
-  return badges;
-}
+// ── 🏅 ACHIEVEMENT BADGES ────────────────────────────────
+// getPlayerBadges imported from ./js/db.js
 
-// â”€â”€ PLAYERS â”€â”€
+// ── PLAYERS ──
 function renderPlayers(list) {
+  const hdr = getTableStatHeaders(list);
+  const priTh = document.getElementById('players-pri-th');
+  const secTh = document.getElementById('players-sec-th');
+  if (priTh) priTh.textContent = hdr.primary;
+  if (secTh) secTh.textContent = hdr.secondary;
+
+  const activeCount = allPlayers.filter(p => (p.status || 'Active') === 'Active').length;
+  const subCount    = allPlayers.filter(p => p.status === 'Substitute').length;
+  const sumEl = document.getElementById('squad-summary');
+  if (sumEl) {
+    sumEl.innerHTML = `🦁 CSK 2026 Playing XI: <strong style="color:var(--green)">${activeCount}</strong> &nbsp;·&nbsp; 🔄 Substitutes: <strong style="color:#82aaff">${subCount}</strong> &nbsp;·&nbsp; Total Squad: <strong style="color:var(--cyan)">${allPlayers.length}</strong> <span style="opacity:.75">(IPL 2026 Rule: 11 Playing + 4 Sub = 15)</span>`;
+  }
+
   const tbody = document.getElementById('players-tbody');
   if (!list.length) { tbody.innerHTML=`<tr><td colspan="11" style="color:var(--muted);text-align:center;padding:2rem">No players found</td></tr>`; return; }
   tbody.innerHTML = list.map(p => {
+    const m = getSportStatLabels(p.sport);
+    const priVal = getPlayerPrimaryStat(p);
+    const secVal = getPlayerSecondaryStat(p);
+    const priText = hdr.singleSport ? priVal : `${priVal} <small style="color:var(--muted)">${m.primaryShort}</small>`;
+    const secText = hdr.singleSport ? secVal : `${secVal} <small style="color:var(--muted)">${m.secondaryShort}</small>`;
     const badges = getPlayerBadges(p);
     const badgeHtml = badges.slice(0,2).map(b =>
       `<span title="${b.label}" style="font-size:1rem">${b.icon}</span>`).join('');
     return `<tr>
       <td><strong>${p.name}</strong></td><td>${p.sport}</td>
       <td>${p.position||'—'}</td><td>${p.jerseyNumber||'—'}</td>
-      <td>${p.matchesPlayed||0}</td><td>${p.goals||0}</td><td>${p.assists||0}</td>
+      <td>${p.matchesPlayed||0}</td><td>${priText}</td><td>${secText}</td>
       <td>
         <div class="prog-track" style="width:80px"><div class="prog-fill" style="width:${p.fitnessScore||0}%;background:linear-gradient(90deg,var(--blue),var(--cyan))"></div></div>
         <small style="color:var(--muted)">${p.fitnessScore||0}%</small>
       </td>
-      <td><span class="badge ${p.status==='Active'?'badge-green':p.status==='Injured'?'badge-red':'badge-orange'}">${p.status||'Active'}</span></td>
+      <td><span class="badge ${getStatusBadgeClass(p.status)}">${p.status||'Active'}</span></td>
       <td>${badgeHtml || '—'}</td>
       <td>
         <button class="btn btn-ghost btn-sm" onclick="openPlayerModal('${p.id}')">Edit</button>
@@ -466,50 +508,86 @@ function populatePlayerSelect() {
   const sel = document.getElementById('pm-player-select');
   sel.innerHTML = '<option value="">— Choose —</option>' + allPlayers.map(p=>`<option value="${p.id}">${p.name} (${p.sport})</option>`).join('');
 }
+window.updateModalSportLabels = (sport) => {
+  const m = getSportStatLabels(sport);
+  document.getElementById('pm-pri-label').textContent = m.primaryLabel;
+  document.getElementById('pm-sec-label').textContent = m.secondaryLabel;
+  document.getElementById('pm-position').placeholder   = m.posPlaceholder;
+};
+window.openNewPlayerModal = () => {
+  ['pm-new-name','pm-position','pm-jersey','pm-matches','pm-goals','pm-assists','pm-fitness'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('pm-uid').value = '__new__';
+  document.getElementById('player-modal-title').textContent = 'Add New Player';
+  document.getElementById('pm-select-wrap').style.display = 'none';
+  document.getElementById('pm-new-fields').style.display  = 'grid';
+  document.getElementById('pm-new-sport').value = 'Cricket';
+  document.getElementById('pm-status').value    = 'Active';
+  updateModalSportLabels('Cricket');
+  document.getElementById('player-modal').classList.add('open');
+};
 window.openPlayerModal = (uid=null) => {
   ['pm-position','pm-jersey','pm-matches','pm-goals','pm-assists','pm-fitness'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('pm-uid').value = uid||'';
+  document.getElementById('player-modal-title').textContent = 'Update Player Stats';
+  document.getElementById('pm-select-wrap').style.display = 'block';
+  document.getElementById('pm-new-fields').style.display  = 'none';
+  document.getElementById('pm-pri-label').textContent = 'Goals / Runs';
+  document.getElementById('pm-sec-label').textContent = 'Assists / Wickets';
   if (uid) { document.getElementById('pm-player-select').value = uid; fillPlayerData(); }
   document.getElementById('player-modal').classList.add('open');
 };
 window.fillPlayerData = () => {
   const uid = document.getElementById('pm-player-select').value;
   const p = allPlayers.find(x=>x.id===uid); if (!p) return;
+  updateModalSportLabels(p.sport);
   document.getElementById('pm-uid').value = uid;
   document.getElementById('pm-position').value = p.position||'';
   document.getElementById('pm-jersey').value   = p.jerseyNumber||'';
   document.getElementById('pm-matches').value  = p.matchesPlayed||0;
-  document.getElementById('pm-goals').value    = p.goals||0;
-  document.getElementById('pm-assists').value  = p.assists||0;
+  document.getElementById('pm-goals').value    = getPlayerPrimaryStat(p);
+  document.getElementById('pm-assists').value  = getPlayerSecondaryStat(p);
   document.getElementById('pm-fitness').value  = p.fitnessScore||0;
   document.getElementById('pm-status').value   = p.status||'Active';
 };
 window.savePlayerStats = async () => {
-  const uid = document.getElementById('pm-uid').value || document.getElementById('pm-player-select').value;
-  if (!uid) return alert('Please select a player.');
+  const rawUid = document.getElementById('pm-uid').value;
+  const isNew  = rawUid === '__new__';
+  const uid    = isNew ? '' : (rawUid || document.getElementById('pm-player-select').value);
+  if (!isNew && !uid) return alert('Please select a player.');
+
+  const sport     = isNew ? document.getElementById('pm-new-sport').value : (allPlayers.find(x => x.id === uid)?.sport || 'Cricket');
+  const isCricket = String(sport).trim().toLowerCase() === 'cricket';
+  const priVal    = +document.getElementById('pm-goals').value||0;
+  const secVal    = +document.getElementById('pm-assists').value||0;
   const data = {
     position: document.getElementById('pm-position').value,
     jerseyNumber: document.getElementById('pm-jersey').value,
     matchesPlayed: +document.getElementById('pm-matches').value||0,
-    goals:   +document.getElementById('pm-goals').value||0,
-    assists: +document.getElementById('pm-assists').value||0,
+    ...(isCricket ? { runs: priVal, wickets: secVal, goals: priVal, assists: secVal } : { goals: priVal, assists: secVal }),
     fitnessScore: +document.getElementById('pm-fitness').value||0,
     status: document.getElementById('pm-status').value
   };
-  await updatePlayer(uid, data);
-  showSuccess('pm-success','✅ Stats saved!');
+  if (isNew) {
+    const newName = document.getElementById('pm-new-name').value.trim();
+    if (!newName) return alert('Please enter player name.');
+    await addPlayerRecord({ ...data, name: newName, sport });
+    showSuccess('pm-success','✅ Player added!');
+  } else {
+    await updatePlayer(uid, data);
+    showSuccess('pm-success','✅ Stats saved!');
+  }
   allPlayers = await getAllPlayers();
-  renderPlayers(allPlayers); renderDashboard(); renderLeaderboard();
+  renderPlayers(allPlayers); renderDashboard(); renderLeaderboard(); populatePlayerSelect();
   setTimeout(()=>closeModal('player-modal'),1200);
 };
 window.removePlayer = async (uid) => {
   if (!confirm('Remove this player?')) return;
-  const {deletePlayer} = await import('./db.js');
+  const {deletePlayer} = await import('./js/db.js');
   await deletePlayer(uid); allPlayers = await getAllPlayers();
   renderPlayers(allPlayers); renderDashboard(); renderLeaderboard(); populatePlayerSelect();
 };
 
-// â”€â”€ 📅 ATTENDANCE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── 📅 ATTENDANCE ────────────────────────────────────────
 window.openAttSession = () => {
   const form = document.getElementById('att-session-form');
   form.style.display = form.style.display === 'none' ? 'block' : 'none';
@@ -525,8 +603,8 @@ window.openAttSession = () => {
         <div style="font-size:.7rem;color:var(--muted)">${p.sport}</div>
       </div>
       <div class="att-toggle">
-        <button class="att-btn present" data-uid="${p.id}" data-status="present" onclick="markAtt('${p.id}','present',this)">âœ“</button>
-        <button class="att-btn absent"  data-uid="${p.id}" data-status="absent"  onclick="markAtt('${p.id}','absent',this)">âœ—</button>
+        <button class="att-btn present" data-uid="${p.id}" data-status="present" onclick="markAtt('${p.id}','present',this)">✓</button>
+        <button class="att-btn absent"  data-uid="${p.id}" data-status="absent"  onclick="markAtt('${p.id}','absent',this)">✗</button>
       </div>
     </div>`).join('');
 };
@@ -571,7 +649,7 @@ window.delSession = async (id) => {
   await deleteAttendanceSession(id); loadAttHistory();
 };
 
-// â”€â”€ 💬 TEAM CHAT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── 💬 TEAM CHAT ─────────────────────────────────────────
 function initChat() {
   try {
     const q = query(collection(db, 'chat'), orderBy('ts', 'asc'));
@@ -613,7 +691,7 @@ window.sendChat = async () => {
   await sendChatMessage({ text, uid: currentUser.uid, senderName: currentUser.name, role: 'coach' });
 };
 
-// â”€â”€ MATCHES â”€â”€
+// ── MATCHES ──
 function renderMatches(list) {
   const tbody = document.getElementById('matches-tbody');
   if (!list.length) { tbody.innerHTML=`<tr><td colspan="8" style="color:var(--muted);text-align:center;padding:2rem">No matches added yet</td></tr>`; return; }
@@ -622,7 +700,7 @@ function renderMatches(list) {
       ? (m.scoreUs>m.scoreThem?'<span class="badge badge-green">WIN</span>'
         :m.scoreUs<m.scoreThem?'<span class="badge badge-red">LOSS</span>'
         :'<span class="badge badge-muted">DRAW</span>') : '—';
-    const score = m.status==='completed'?`${m.scoreUs||0} â€“ ${m.scoreThem||0}`:'—';
+    const score = m.status==='completed'?`${m.scoreUs||0} – ${m.scoreThem||0}`:'—';
     return `<tr>
       <td>${fmtDate(m.date)}</td><td><strong>${m.opponent}</strong></td>
       <td>${m.venue}</td><td>${m.sport}</td>
@@ -672,22 +750,34 @@ window.saveMatch=async()=>{
 };
 window.removeMatch=async(id)=>{if(!confirm('Delete this match?'))return;await deleteMatch(id);allMatches=await getAllMatches();renderMatches(allMatches);renderDashboard();};
 
-// â”€â”€ LEADERBOARD â”€â”€
+// ── LEADERBOARD ──
 function renderLeaderboard() {
-  const sorted=[...allPlayers].filter(p=>p.matchesPlayed>0).sort((a,b)=>((b.goals||0)+(b.assists||0))-((a.goals||0)+(a.assists||0)));
-  const medals=['ðŸ¥‡','ðŸ¥ˆ','ðŸ¥‰'];
+  const sorted=[...allPlayers].filter(p=>p.matchesPlayed>0).sort((a,b)=>getPlayerImpactScore(b)-getPlayerImpactScore(a));
+  const hdr = getTableStatHeaders(sorted);
+  const priTh = document.getElementById('lb-pri-th');
+  const secTh = document.getElementById('lb-sec-th');
+  if (priTh) priTh.textContent = hdr.primary;
+  if (secTh) secTh.textContent = hdr.secondary;
+  const medals=['🥇','🥈','🥉'];
   const tbody=document.getElementById('lb-tbody');
   if(!sorted.length){tbody.innerHTML=`<tr><td colspan="8" style="color:var(--muted);text-align:center;padding:2rem">No player data yet</td></tr>`;return;}
-  tbody.innerHTML=sorted.map((p,i)=>`<tr>
+  tbody.innerHTML=sorted.map((p,i)=>{
+    const m = getSportStatLabels(p.sport);
+    const priVal = getPlayerPrimaryStat(p);
+    const secVal = getPlayerSecondaryStat(p);
+    const priText = hdr.singleSport ? priVal : `${priVal} <small style="color:var(--muted)">${m.primaryShort}</small>`;
+    const secText = hdr.singleSport ? secVal : `${secVal} <small style="color:var(--muted)">${m.secondaryShort}</small>`;
+    return `<tr>
     <td><strong style="font-size:1.1rem">${i<3?medals[i]:i+1}</strong></td>
     <td><strong>${p.name}</strong></td><td>${p.sport}</td>
-    <td>${p.matchesPlayed||0}</td><td>${p.goals||0}</td><td>${p.assists||0}</td>
+    <td>${p.matchesPlayed||0}</td><td>${priText}</td><td>${secText}</td>
     <td><div class="prog-track" style="width:80px;display:inline-block"><div class="prog-fill" style="width:${p.fitnessScore||0}%;background:linear-gradient(90deg,var(--blue),var(--cyan))"></div></div> ${p.fitnessScore||0}%</td>
-    <td><strong style="color:var(--cyan)">${(p.goals||0)+(p.assists||0)}</strong></td>
-  </tr>`).join('');
+    <td><strong style="color:var(--cyan)">${getPlayerImpactScore(p)}</strong></td>
+  </tr>`;
+  }).join('');
 }
 
-// â”€â”€ TRAINING â”€â”€
+// ── TRAINING ──
 function renderTraining(list) {
   const cats={Speed:'var(--cyan)',Strength:'var(--gold)',Stamina:'var(--green)',Agility:'var(--blue)',Recovery:'#69f0ae',Diet:'#e040fb',Tactical:'var(--orange)'};
   const el=document.getElementById('training-list');
@@ -707,7 +797,7 @@ window.openTrainingModal=()=>{['tr-title','tr-dur','tr-desc','tr-tags'].forEach(
 window.saveTraining=async()=>{const title=document.getElementById('tr-title').value;if(!title)return alert('Title is required.');await addTrainingPlan({title,category:document.getElementById('tr-cat').value,duration:document.getElementById('tr-dur').value,description:document.getElementById('tr-desc').value,tags:document.getElementById('tr-tags').value,coachUid:currentUser.uid});showSuccess('tr-success','✅ Plan added!');allTraining=await getTrainingPlans();renderTraining(allTraining);setTimeout(()=>closeModal('training-modal'),1200);};
 window.removePlan=async(id)=>{if(!confirm('Delete this training plan?'))return;await deleteTrainingPlan(id);allTraining=await getTrainingPlans();renderTraining(allTraining);};
 
-// â”€â”€ ANNOUNCEMENTS â”€â”€
+// ── ANNOUNCEMENTS ──
 function renderAnn(list) {
   const colors={normal:'var(--blue)',important:'var(--gold)',urgent:'var(--red)'};
   const el=document.getElementById('ann-list');
@@ -724,7 +814,7 @@ window.openAnnModal=()=>{['an-title','an-body'].forEach(id=>document.getElementB
 window.saveAnn=async()=>{const title=document.getElementById('an-title').value;if(!title)return alert('Title is required.');await addAnnouncement({title,body:document.getElementById('an-body').value,priority:document.getElementById('an-priority').value,postedBy:currentUser.name});showSuccess('an-success','✅ Posted!');allAnn=await getAnnouncements();renderAnn(allAnn);renderDashboard();setTimeout(()=>closeModal('ann-modal'),1200);};
 window.removeAnn=async(id)=>{if(!confirm('Delete this announcement?'))return;await deleteAnnouncement(id);allAnn=await getAnnouncements();renderAnn(allAnn);renderDashboard();};
 
-// â”€â”€ PROFILE â”€â”€
+// ── PROFILE ──
 async function loadProfile() {
   const u=await getUser(currentUser.uid); if(!u)return;
   document.getElementById('profile-name').textContent=u.name;
@@ -736,7 +826,7 @@ async function loadProfile() {
 }
 window.saveProfile=async()=>{await updateUser(currentUser.uid,{name:document.getElementById('p-name').value,specialization:document.getElementById('p-sport').value,experience:document.getElementById('p-exp').value,teamCode:document.getElementById('p-team-code').value.toUpperCase()});showSuccess('profile-success','✅ Profile saved!');document.getElementById('coach-name').textContent=document.getElementById('p-name').value;};
 
-// â”€â”€ HELPERS â”€â”€
+// ── HELPERS ──
 window.showPage=(id,btn)=>{
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -746,7 +836,7 @@ window.showPage=(id,btn)=>{
   if(btn)btn.classList.add('active');
 };
 window.closeModal=(id)=>document.getElementById(id).classList.remove('open');
-window.handleLogout=()=>{import('./auth.js').then(m=>m.logoutUser());};
+window.handleLogout=()=>logoutUser();
 function showSuccess(id,msg){const el=document.getElementById(id);if(!el)return;el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
 </script>
 </body>

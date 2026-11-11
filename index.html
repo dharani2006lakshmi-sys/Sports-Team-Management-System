@@ -245,18 +245,6 @@ p.form-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.5rem;}
         <input type="password" id="login-pass" placeholder="••••••••"/>
       </div>
       <button class="btn-submit" id="login-btn" onclick="handleLogin()">Sign In</button>
-            <div class="divider-or">or quick demo access</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:1rem;">
-        <button type="button" onclick="handleDemoLogin('coach')" style="padding:.6rem .4rem;background:rgba(41,121,255,.12);border:1px solid rgba(41,121,255,.3);border-radius:8px;color:#82aaff;font-family:'Sora',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;">
-          ⚡ Coach Demo
-        </button>
-        <button type="button" onclick="handleDemoLogin('manager')" style="padding:.6rem .4rem;background:rgba(255,214,0,.1);border:1px solid rgba(255,214,0,.3);border-radius:8px;color:#ffd600;font-family:'Sora',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;">
-          ⚡ Manager Demo
-        </button>
-        <button type="button" onclick="handleDemoLogin('player')" style="padding:.6rem .4rem;background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.3);border-radius:8px;color:#00e676;font-family:'Sora',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;">
-          ⚡ Player Demo
-        </button>
-      </div>
       <div class="divider-or">or continue with</div>
       <button class="btn-google" id="google-login-btn" onclick="handleGoogleLogin()">
         <svg class="google-icon" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
@@ -318,7 +306,7 @@ p.form-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.5rem;}
   </div>
 </div>
 
-<!-- â”€â”€ Forgot Password Modal â”€â”€ -->
+<!-- ── Forgot Password Modal ── -->
 <div id="forgot-modal" class="modal-overlay">
   <div class="modal-box" style="text-align:left;">
     <span class="modal-icon" style="display:block;text-align:center;">&#128273;</span>
@@ -339,7 +327,7 @@ p.form-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.5rem;}
   </div>
 </div>
 
-<!-- â”€â”€ Google Role Selection Modal â”€â”€ -->
+<!-- Google Role Selection Modal -->
 <div id="google-role-modal" class="modal-overlay">
   <div class="modal-box">
     <span class="modal-icon">👋</span>
@@ -349,23 +337,23 @@ p.form-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.5rem;}
     <br/>
     <div style="display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.5rem">
       <button onclick="completeGoogleReg('coach')" class="role-select-btn" style="padding:1rem;background:#121929;border:1px solid #1c2840;border-radius:10px;color:#dce6f5;font-family:'Sora',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;text-align:left;display:flex;align-items:center;gap:.75rem">
-        <span style="font-size:1.3rem">ðŸ‹ï¸</span>
-        <div><div>Coach</div><div style="font-size:.72rem;color:#556a8a;font-weight:400">Manage players, matches & training</div></div>
+        <span style="font-size:1.3rem">🏋️</span>
+        <div><div>Coach</div><div style="font-size:.72rem;color:#556a8a;font-weight:400">Manage players, matches &amp; training</div></div>
       </button>
       <button onclick="completeGoogleReg('player')" class="role-select-btn" style="padding:1rem;background:#121929;border:1px solid #1c2840;border-radius:10px;color:#dce6f5;font-family:'Sora',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;text-align:left;display:flex;align-items:center;gap:.75rem">
-        <span style="font-size:1.3rem">ðŸƒ</span>
-        <div><div>Player</div><div style="font-size:.72rem;color:#556a8a;font-weight:400">View stats, matches & leaderboard</div></div>
+        <span style="font-size:1.3rem">🏃</span>
+        <div><div>Player</div><div style="font-size:.72rem;color:#556a8a;font-weight:400">View stats, matches &amp; leaderboard</div></div>
       </button>
       <button onclick="completeGoogleReg('manager')" class="role-select-btn" style="padding:1rem;background:#121929;border:1px solid #1c2840;border-radius:10px;color:#dce6f5;font-family:'Sora',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;text-align:left;display:flex;align-items:center;gap:.75rem">
         <span style="font-size:1.3rem">📊</span>
-        <div><div>Team Manager</div><div style="font-size:.72rem;color:#556a8a;font-weight:400">Overview of team performance & reports</div></div>
+        <div><div>Team Manager</div><div style="font-size:.72rem;color:#556a8a;font-weight:400">Overview of team performance &amp; reports</div></div>
       </button>
     </div>
     <button onclick="cancelGoogleReg()" style="width:100%;padding:.6rem;background:transparent;border:1px solid #1c2840;border-radius:8px;color:#556a8a;font-family:'Sora',sans-serif;font-size:.8rem;cursor:pointer">Cancel</button>
   </div>
 </div>
 
-<!-- â”€â”€ Biometric Setup Modal (shown after login / registration) â”€â”€ -->
+<!-- ── Biometric Setup Modal (shown after login / registration) ── -->
 <div id="biometric-setup-modal" class="modal-overlay">
   <div class="modal-box">
     <span class="modal-icon">🔐</span>
@@ -380,7 +368,7 @@ p.form-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.5rem;}
   </div>
 </div>
 
-<!-- â”€â”€ New Device Modal â”€â”€ -->
+<!-- ── New Device Modal ── -->
 <div id="biometric-newdevice-modal" class="modal-overlay">
   <div class="modal-box">
     <span class="modal-icon">📱</span>
@@ -401,12 +389,12 @@ function cancelGoogleReg(){if(window._cancelGoogleReg)window._cancelGoogleReg();
 </script>
 
 <script type="module">
-import { loginUser, registerUser, redirectToDashboard, loginWithBiometricResult }
+import { loginUser, registerUser, redirectToDashboard, loginWithBiometricResult, LINKED_GOOGLE_ACCOUNTS, resolveLinkedCskProfile }
   from './js/auth.js';
-import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup }
+import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { auth, db } from './js/firebase-config.js';
-import { doc, getDoc, setDoc, serverTimestamp }
+import { doc, getDoc, setDoc, getDocs, deleteDoc, collection, query, where, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import {
   isBiometricSupported, isPlatformAuthenticatorAvailable,
@@ -414,17 +402,35 @@ import {
   getStoredCredentialIds, isCurrentDeviceRegistered
 } from './js/webauthn.js';
 
-// â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── State ─────────────────────────────────────────────────
 let _pendingUid      = null;   // UID waiting for biometric setup
 let _pendingUserData = null;   // full user doc for pending redirect
 let _biometricAvail  = false;
 
-// â”€â”€ Boot â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Boot ─────────────────────────────────────────────────
 (async () => {
   _biometricAvail = await isPlatformAuthenticatorAvailable();
   if (_biometricAvail) {
     document.getElementById('biometric-btn').classList.remove('hidden');
     document.getElementById('biometric-divider').style.display = 'flex';
+  }
+})();
+
+// Handle redirect fallback result if returning from Google redirect login
+(async () => {
+  try {
+    const redirResult = await getRedirectResult(auth);
+    if (redirResult && redirResult.user) {
+      await _processGoogleUser(redirResult.user);
+      return;
+    }
+  } catch (e) {
+    console.warn('[Google Redirect Auth]', e.code || e.message);
+    if (e.code === 'auth/unauthorized-domain') {
+      showError('login-error', `Domain "${location.hostname}" is not authorized in Firebase Auth. Add it in Firebase Console → Authentication → Settings → Authorized domains.`);
+    } else if (e.code && e.code !== 'auth/popup-closed-by-user') {
+      showError('login-error', `Google sign-in failed (${e.code}).`);
+    }
   }
 })();
 
@@ -436,7 +442,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Helpers ───────────────────────────────────────────────
 function showError(id, msg) {
   const el = document.getElementById(id);
   el.textContent = msg; el.classList.add('show');
@@ -466,7 +472,7 @@ window.toggleTeamCode = () => {
   document.getElementById('team-code-group').style.display = role === 'player' ? 'block' : 'none';
 };
 
-// â”€â”€ Biometric login â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Biometric login ───────────────────────────────────────
 window.handleBiometricLogin = async () => {
   const btn = document.getElementById('biometric-btn');
   btn.disabled = true;
@@ -509,7 +515,7 @@ window.handleBiometricLogin = async () => {
   }
 };
 
-// â”€â”€ Email/password login â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Email/password login ──────────────────────────────────
 window.handleLogin = async () => {
   const email = document.getElementById('login-email').value.trim();
   const pass  = document.getElementById('login-pass').value;
@@ -526,75 +532,193 @@ window.handleLogin = async () => {
   }
 };
 
-// â”€â”€ Google login â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Google login (Linked 3-Account Roles + CSK 2026 Profile Sync) ──
+async function _findLegacyProfileByEmail(emailRaw, emailLower) {
+  let merged = null;
+  const collectionsToCheck = ['users', 'coaches', 'managers', 'players'];
+  for (const colName of collectionsToCheck) {
+    try {
+      for (const candidateEmail of [...new Set([emailRaw, emailLower].filter(Boolean))]) {
+        const snap = await getDocs(query(collection(db, colName), where('email', '==', candidateEmail)));
+        snap.forEach(d => {
+          merged = { ...(merged || {}), ...d.data(), _legacyId: d.id };
+        });
+      }
+    } catch (e) {
+      console.warn(`[Google Link] Query ${colName} skipped:`, e.code || e.message);
+    }
+  }
+  return merged;
+}
+
+async function _processGoogleUser(user) {
+  const uid         = user.uid;
+  const emailRaw    = user.email || '';
+  const emailLower  = emailRaw.trim().toLowerCase();
+  const displayName = user.displayName || (emailRaw ? emailRaw.split('@')[0] : 'User');
+
+  let uidData = null;
+  try {
+    const snap = await getDoc(doc(db, 'users', uid));
+    if (snap.exists()) uidData = snap.data();
+  } catch (fsErr) {
+    console.warn('[Google Auth] Firestore read failed:', fsErr.code || fsErr.message);
+  }
+
+  // Always check for existing old/legacy details saved under the same email
+  const legacyData = await _findLegacyProfileByEmail(emailRaw, emailLower);
+
+  let data = null;
+  const linkedResult = resolveLinkedCskProfile(emailRaw, uid, displayName, { ...(legacyData || {}), ...(uidData || {}) });
+  if (linkedResult) {
+    data = linkedResult.profile;
+    localStorage.setItem('ch_google_role_' + uid, data.role);
+    try {
+      await setDoc(doc(db, 'users', uid), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+      await setDoc(doc(db, data.role + 's', uid), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+      // Remove any stale 'ram' duplicate doc under an older legacy ID
+      if (legacyData && legacyData._legacyId && legacyData._legacyId !== uid && String(legacyData.name || '').trim().toLowerCase() === 'ram') {
+        try { await deleteDoc(doc(db, 'players', legacyData._legacyId)); } catch (_) {}
+      }
+    } catch (fsWriteErr) {
+      console.warn('[Google Auth] Firestore link save skipped:', fsWriteErr.code || fsWriteErr.message);
+    }
+  } else if (uidData || legacyData) {
+    const resolvedRole = (uidData && uidData.role)
+      || (legacyData && legacyData.role)
+      || localStorage.getItem('ch_google_role_' + uid);
+
+    if (resolvedRole) {
+      data = {
+        ...(legacyData || {}),
+        ...(uidData || {}),
+        uid,
+        email: emailRaw || (uidData && uidData.email) || (legacyData && legacyData.email) || '',
+        name: (uidData && uidData.name) || (legacyData && legacyData.name) || displayName,
+        role: resolvedRole,
+        sport: (uidData && uidData.sport) || (legacyData && legacyData.sport) || 'Cricket',
+        teamCode: (uidData && uidData.teamCode) || (legacyData && legacyData.teamCode) || 'CSK2026'
+      };
+      delete data._legacyId;
+      localStorage.setItem('ch_google_role_' + uid, resolvedRole);
+      try {
+        await setDoc(doc(db, 'users', uid), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+        await setDoc(doc(db, resolvedRole + 's', uid), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+      } catch (fsWriteErr) {
+        console.warn('[Google Auth] Firestore link save skipped:', fsWriteErr.code || fsWriteErr.message);
+      }
+    }
+  }
+
+  // Local role cache fallback if not in Firestore or presets
+  if (!data) {
+    const cachedRole = localStorage.getItem('ch_google_role_' + uid);
+    if (cachedRole) {
+      data = { uid, name: displayName, email: emailRaw, role: cachedRole, sport: 'Cricket', teamCode: 'CSK2026' };
+    }
+  }
+
+  if (data && data.role) {
+    sessionStorage.setItem('ch_uid',   uid);
+    sessionStorage.setItem('ch_role',  data.role);
+    sessionStorage.setItem('ch_name',  data.name || displayName);
+    sessionStorage.setItem('ch_email', data.email || emailRaw);
+    sessionStorage.setItem('ch_sport', data.sport || 'Cricket');
+    try {
+      const { sqlLogAuth, sqlUpsertUser, sqlUpsertPlayer, initSQL } = await import('./js/sql-layer.js');
+      await initSQL();
+      sqlUpsertUser({ uid, name: data.name || displayName, email: data.email || emailRaw, role: data.role, sport: data.sport || 'Cricket', teamCode: data.teamCode || 'CSK2026' });
+      if (data.role === 'player') sqlUpsertPlayer(data);
+      sqlLogAuth(uid, data.email || emailRaw, 'google', 'login');
+    } catch (sqlErr) {
+      console.warn('[SQL] Google login log skipped:', sqlErr.message);
+    }
+    await _postLoginBiometricCheck(uid, data);
+    return true;
+  }
+
+  // New unrecognized Google user — prompt for role selection
+  document.getElementById('google-user-name').textContent = displayName + (emailRaw ? ' · ' + emailRaw : '');
+  document.getElementById('google-role-modal').style.display = 'grid';
+
+  window._completeGoogleReg = async (role) => {
+    document.getElementById('google-role-modal').style.display = 'none';
+    const profileData = {
+      uid, name: displayName, email: emailRaw, role,
+      sport: 'Cricket',
+      teamCode: 'CSK2026',
+      createdAt: serverTimestamp(),
+      biometricCredentials: [],
+      ...(role === 'coach'   ? { specialization: '', experience: '' } : {}),
+      ...(role === 'player'  ? { position: '', jerseyNumber: '', matchesPlayed: 0, runs: 0, wickets: 0, goals: 0, assists: 0, fitnessScore: 0, status: 'Active' } : {}),
+      ...(role === 'manager' ? { department: '' } : {})
+    };
+    localStorage.setItem('ch_google_role_' + uid, role);
+    try {
+      await setDoc(doc(db, 'users', uid), profileData, { merge: true });
+      await setDoc(doc(db, role + 's', uid), profileData, { merge: true });
+    } catch (fsErr) {
+      console.warn('[Google Auth] Firestore profile write failed (using local session):', fsErr.code || fsErr.message);
+    }
+    sessionStorage.setItem('ch_uid',   uid);
+    sessionStorage.setItem('ch_role',  role);
+    sessionStorage.setItem('ch_name',  displayName);
+    sessionStorage.setItem('ch_email', emailRaw);
+    sessionStorage.setItem('ch_sport', 'Cricket');
+    try {
+      const { sqlLogAuth, sqlUpsertUser, initSQL } = await import('./js/sql-layer.js');
+      await initSQL();
+      sqlUpsertUser({ uid, name: displayName, email: emailRaw, role, sport: 'Cricket', teamCode: 'CSK2026' });
+      sqlLogAuth(uid, emailRaw, 'google', 'register');
+    } catch (sqlErr) {
+      console.warn('[SQL] Google register log skipped:', sqlErr.message);
+    }
+    await _postLoginBiometricCheck(uid, profileData);
+  };
+
+  window._cancelGoogleReg = async () => {
+    document.getElementById('google-role-modal').style.display = 'none';
+    const { signOut } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
+    await signOut(auth);
+  };
+  return false;
+}
+
 window.handleGoogleLogin = async () => {
   const btn = document.getElementById('google-login-btn');
   const googleSVG = `<svg class="google-icon" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`;
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner" style="border-top-color:#4285F4"></span> Signing in...';
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: 'select_account' });
   try {
-    const provider = new GoogleAuthProvider();
-    const result   = await signInWithPopup(auth, provider);
-    const uid      = result.user.uid;
-    const snap     = await getDoc(doc(db, 'users', uid));
-    if (snap.exists()) {
-      const data = snap.data();
-      sessionStorage.setItem('ch_uid',  uid);
-      sessionStorage.setItem('ch_role', data.role);
-      sessionStorage.setItem('ch_name', data.name);
-      // Log Google login in SQL
-      const { sqlLogAuth, initSQL } = await import('./js/sql-layer.js');
-      await initSQL();
-      sqlLogAuth(uid, data.email || '', 'google', 'login');
-      await _postLoginBiometricCheck(uid, data);
-    } else {
-      // New Google user — role selection
-      const name  = result.user.displayName || 'User';
-      const email = result.user.email;
-      document.getElementById('google-user-name').textContent = name + ' Â· ' + email;
-      document.getElementById('google-role-modal').style.display = 'grid';
-      btn.disabled = false;
-      btn.innerHTML = googleSVG;
-
-      window._completeGoogleReg = async (role) => {
-        document.getElementById('google-role-modal').style.display = 'none';
-        const profileData = {
-          uid, name, email, role,
-          createdAt: serverTimestamp(),
-          biometricCredentials: [],
-          ...(role === 'coach'   ? { specialization: '', experience: '', sport: '' } : {}),
-          ...(role === 'player'  ? { position: '', jerseyNumber: '', matchesPlayed: 0, goals: 0, assists: 0, fitnessScore: 0, status: 'Active', sport: '' } : {}),
-          ...(role === 'manager' ? { department: '', sport: '' } : {})
-        };
-        await setDoc(doc(db, 'users', uid), profileData);
-        await setDoc(doc(db, role + 's', uid), profileData);
-        sessionStorage.setItem('ch_uid',  uid);
-        sessionStorage.setItem('ch_role', role);
-        sessionStorage.setItem('ch_name', name);
-        // SQL mirror
-        const { sqlLogAuth, sqlUpsertUser, initSQL } = await import('./js/sql-layer.js');
-        await initSQL();
-        sqlUpsertUser({ uid, name, email, role, sport: '' });
-        sqlLogAuth(uid, email, 'google', 'register');
-        await _postLoginBiometricCheck(uid, profileData);
-      };
-
-      window._cancelGoogleReg = async () => {
-        document.getElementById('google-role-modal').style.display = 'none';
-        const { signOut } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
-        await signOut(auth);
-      };
-    }
-  } catch(e) {
+    const result = await signInWithPopup(auth, provider);
+    await _processGoogleUser(result.user);
     btn.disabled = false;
     btn.innerHTML = googleSVG;
-    if (e.code !== 'auth/popup-closed-by-user') {
-      showError('login-error', 'Google sign-in failed. Try again.');
+  } catch (e) {
+    if (e.code === 'auth/popup-blocked') {
+      try {
+        await signInWithRedirect(auth, provider);
+        return;
+      } catch (redirErr) {
+        e = redirErr;
+      }
+    }
+    btn.disabled = false;
+    btn.innerHTML = googleSVG;
+    console.error('[Google Auth Error]', e);
+    if (e.code === 'auth/unauthorized-domain') {
+      showError('login-error', `Domain "${location.hostname}" is not authorized in Firebase Auth. Add "${location.hostname}" in Firebase Console → Authentication → Settings → Authorized domains.`);
+    } else if (e.code === 'auth/operation-not-allowed') {
+      showError('login-error', 'Google Sign-In is disabled in Firebase Console → Authentication → Sign-in method.');
+    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+      showError('login-error', `Google sign-in failed (${e.code || e.message}).`);
     }
   }
 };
 
-// â”€â”€ Register â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Register ──────────────────────────────────────────────
 window.handleRegister = async () => {
   const name     = document.getElementById('reg-name').value.trim();
   const role     = document.getElementById('reg-role').value;
@@ -625,7 +749,7 @@ window.handleRegister = async () => {
   }
 };
 
-// â”€â”€ Post-login biometric flow â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Post-login biometric flow ─────────────────────────────
 async function _postLoginBiometricCheck(uid, userData) {
   if (!_biometricAvail) {
     // Biometrics not supported — just redirect
@@ -635,9 +759,16 @@ async function _postLoginBiometricCheck(uid, userData) {
   _pendingUid      = uid;
   _pendingUserData = userData;
 
-  const storedIds      = await getStoredCredentialIds(uid);
-  const hasAny         = storedIds.length > 0;
-  const deviceAlready  = await isCurrentDeviceRegistered(uid);
+  let storedIds = [];
+  let deviceAlready = false;
+  try {
+    storedIds = await getStoredCredentialIds(uid);
+    deviceAlready = await isCurrentDeviceRegistered(uid);
+  } catch (bioErr) {
+    console.warn('[Biometric] Credential check skipped:', bioErr.message);
+    return redirectToDashboard(userData.role);
+  }
+  const hasAny = storedIds.length > 0;
 
   if (!hasAny) {
     // Never set up biometric — offer setup
@@ -658,7 +789,7 @@ function _showBiometricSetupModal(title, desc) {
   document.getElementById('biometric-setup-modal').style.display = 'grid';
 }
 
-// â”€â”€ Biometric setup actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Biometric setup actions ───────────────────────────────
 window.doBiometricSetup = async () => {
   const btn = document.getElementById('bio-modal-setup-btn');
   btn.disabled = true;
@@ -706,7 +837,7 @@ window.skipNewDevice = () => {
   redirectToDashboard(_pendingUserData.role);
 };
 
-// â”€â”€ Forgot Password â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Forgot Password ────────────────────────────────────────
 import { sendPasswordResetEmail }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 

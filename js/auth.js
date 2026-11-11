@@ -97,9 +97,21 @@ export async function loginUser(email, password) {
       name: email.split('@')[0],
       email: email,
       role: 'manager',
-      sport: 'Football',
-      teamCode: 'STORM2026'
+      sport: 'Cricket',
+      teamCode: 'CSK2026'
     };
+  }
+
+  const linked = resolveLinkedCskProfile(cred.user.email || data.email || email, uid, cred.user.displayName, data);
+  if (linked) {
+    data = linked.profile;
+    if (linked.migrated) {
+      try {
+        await setDoc(doc(db, 'users', uid), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+        await setDoc(doc(db, data.role + 's', uid), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+        if (data.role === 'player') sqlUpsertPlayer(data);
+      } catch(_) {}
+    }
   }
 
   sessionStorage.setItem('ch_uid',   uid);
@@ -133,25 +145,25 @@ export async function loginWithBiometricResult(uid, userData) {
 // ── DEMO LOGIN helper (Instant access for viva/presentations)
 export function demoLogin(role) {
   const names = {
-    coach:   'Mrs. K. Karpoora Sundari (Coach)',
-    manager: 'Dharanidharan A (Team Manager)',
-    player:  'Dhanush K (Forward / Player)'
+    coach:   'Zaheer Khan (CSK Coach)',
+    manager: 'Kasi Viswanathan (CSK Manager)',
+    player:  'MS Dhoni (CSK #07)'
   };
   const uid   = `demo_${role}_001`;
   const name  = names[role] || `${role.toUpperCase()} User`;
-  const email = `${role}@sportsms.edu`;
+  const email = `${role}@chennaisuperkings.com`;
 
   sessionStorage.setItem('ch_demo',  'true');
   sessionStorage.setItem('ch_uid',   uid);
   sessionStorage.setItem('ch_role',  role);
   sessionStorage.setItem('ch_name',  name);
   sessionStorage.setItem('ch_email', email);
-  sessionStorage.setItem('ch_sport', 'Football');
-  sessionStorage.setItem('ch_team',  'STORM2026');
+  sessionStorage.setItem('ch_sport', 'Cricket');
+  sessionStorage.setItem('ch_team',  'CSK2026');
 
   try {
     _sqlReady.then(() => {
-      sqlUpsertUser({ uid, name, email, role, sport: 'Football', teamCode: 'STORM2026' });
+      sqlUpsertUser({ uid, name, email, role, sport: 'Cricket', teamCode: 'CSK2026' });
       sqlLogAuth(uid, email, 'demo', 'login');
     });
   } catch(e) {}
@@ -166,15 +178,72 @@ export async function logoutUser() {
   const isDemo = sessionStorage.getItem('ch_demo') === 'true';
 
   try {
-    await _sqlReady;
+    await Promise.race([_sqlReady, new Promise(r => setTimeout(r, 350))]);
     if (uid) sqlLogAuth(uid, email, isDemo ? 'demo' : 'session', 'logout');
   } catch(e) {}
 
-  if (!isDemo) {
-    try { await signOut(auth); } catch(e) {}
-  }
+  try { await signOut(auth); } catch(e) {}
   sessionStorage.clear();
   window.location.href = 'index.html';
+}
+
+// ── LINKED 3-ACCOUNT CSK 2026 PERSONAS ──────────────────────
+export const LINKED_GOOGLE_ACCOUNTS = {
+  'dharanidharan2006lakshmi@gmail.com': {
+    role: 'coach',
+    name: 'Zaheer Khan',
+    sport: 'Cricket',
+    teamCode: 'CSK2026',
+    specialization: 'Head Coach — Chennai Super Kings',
+    experience: '12',
+    title: 'CSK Head Coach'
+  },
+  'firee4531@gmail.com': {
+    role: 'manager',
+    name: 'Kasi Viswanathan',
+    sport: 'Cricket',
+    teamCode: 'CSK2026',
+    department: 'Chennai Super Kings Management',
+    title: 'CSK Team Manager'
+  },
+  'dharanidharan.ec24@krct.ac.in': {
+    role: 'player',
+    name: 'MS Dhoni',
+    sport: 'Cricket',
+    teamCode: 'CSK2026',
+    position: 'Wicket-Keeper / Finisher',
+    jerseyNumber: '07',
+    runs: 5439, wickets: 0, goals: 5439, assists: 0,
+    matchesPlayed: 278, fitnessScore: 94, status: 'Active'
+  }
+};
+
+const STALE_PERSONA_RE = /^(ram|dharani|d\s*tech|dharanidharan(\s*a)?|stephen fleming|sports user|demo user|user)$/i;
+
+export function resolveLinkedCskProfile(emailRaw, uid, displayName, existingData = {}) {
+  const emailLower = String(emailRaw || existingData?.email || '').trim().toLowerCase();
+  const preset = LINKED_GOOGLE_ACCOUNTS[emailLower];
+  if (!preset) return null;
+
+  const cleanExisting = { ...(existingData || {}) };
+  const existingName = String(cleanExisting.name || '').trim();
+  const needsCskMigration = !existingName
+    || STALE_PERSONA_RE.test(existingName)
+    || cleanExisting.teamCode !== 'CSK2026'
+    || (preset.role === 'player' && existingName.toLowerCase() !== 'ms dhoni');
+
+  const profile = needsCskMigration
+    ? { ...cleanExisting, ...preset }
+    : { ...preset, ...cleanExisting };
+
+  profile.uid = uid;
+  profile.email = emailRaw || cleanExisting.email || emailLower;
+  profile.role = preset.role;
+  profile.sport = 'Cricket';
+  profile.teamCode = 'CSK2026';
+  profile.name = (needsCskMigration ? preset.name : (existingName || preset.name)) || displayName;
+  delete profile._legacyId;
+  return { profile, migrated: needsCskMigration };
 }
 
 // ── AUTH GUARD — call on every protected page ──────────────
@@ -190,17 +259,13 @@ export function requireAuth(allowedRoles = []) {
       const data = {
         uid: sessionStorage.getItem('ch_uid') || `demo_${role}_001`,
         name: sessionStorage.getItem('ch_name') || 'Demo User',
-        email: sessionStorage.getItem('ch_email') || `${role}@sportsms.edu`,
+        email: sessionStorage.getItem('ch_email') || `${role}@chennaisuperkings.com`,
         role: role,
-        sport: sessionStorage.getItem('ch_sport') || 'Football',
-        teamCode: 'STORM2026',
-        goals: 18,
-        assists: 9,
-        matchesPlayed: 22,
-        fitnessScore: 94,
-        status: 'Active',
-        position: 'Forward',
-        jerseyNumber: '10'
+        sport: sessionStorage.getItem('ch_sport') || 'Cricket',
+        teamCode: 'CSK2026',
+        runs: 250, wickets: 5, goals: 250, assists: 5,
+        matchesPlayed: 15, fitnessScore: 94, status: 'Active',
+        position: 'All-Rounder', jerseyNumber: '07'
       };
       return resolve(data);
     }
@@ -217,8 +282,8 @@ export function requireAuth(allowedRoles = []) {
             name: sessionStorage.getItem('ch_name') || 'Sports User',
             email: sessionStorage.getItem('ch_email') || '',
             role: storedRole,
-            sport: sessionStorage.getItem('ch_sport') || 'Football',
-            teamCode: 'STORM2026'
+            sport: sessionStorage.getItem('ch_sport') || 'Cricket',
+            teamCode: 'CSK2026'
           });
         }
         window.location.href = 'index.html';
@@ -234,11 +299,23 @@ export function requireAuth(allowedRoles = []) {
             name: user.displayName || (user.email ? user.email.split('@')[0] : 'Sports User'),
             email: user.email || '',
             role: allowedRoles[0] || 'player',
-            sport: 'Football',
-            teamCode: 'STORM2026'
+            sport: 'Cricket',
+            teamCode: 'CSK2026'
           };
         } else {
           data = snap.data();
+        }
+
+        const linked = resolveLinkedCskProfile(user.email || data.email, user.uid, user.displayName, data);
+        if (linked) {
+          data = linked.profile;
+          if (linked.migrated) {
+            try {
+              await setDoc(doc(db, 'users', user.uid), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+              await setDoc(doc(db, data.role + 's', user.uid), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+              if (data.role === 'player') sqlUpsertPlayer(data);
+            } catch (_) {}
+          }
         }
 
         if (allowedRoles.length && !allowedRoles.includes(data.role)) {
@@ -263,15 +340,16 @@ export function requireAuth(allowedRoles = []) {
         resolve(data);
       } catch (err) {
         console.warn('Profile fetch error, using basic user info:', err);
-        const role = sessionStorage.getItem('ch_role') || (allowedRoles[0] || 'manager');
-        resolve({
+        const basic = {
           uid: user.uid,
           name: user.displayName || (user.email ? user.email.split('@')[0] : 'Sports User'),
           email: user.email || '',
-          role: role,
-          sport: 'Football',
-          teamCode: 'STORM2026'
-        });
+          role: sessionStorage.getItem('ch_role') || (allowedRoles[0] || 'manager'),
+          sport: 'Cricket',
+          teamCode: 'CSK2026'
+        };
+        const linked = resolveLinkedCskProfile(user.email, user.uid, user.displayName, basic);
+        resolve(linked ? linked.profile : basic);
       }
     });
   });
